@@ -1,0 +1,114 @@
+#droppy
+#title: April Blossom
+//#subtitle: na trium
+#music: 0417 Edit 1 Export 1.mp3
+#volume: 50
+#bpm: 174
+#offset: 0
+#level: 2,6
+#demo: 2.7, 36.5
+
+#start
+
+//@アルファベット:色番号,wavファイル,音量,音符スタート位置0〜100(0=真上から、100=右端から)
+//色の一覧はimgフォルダを見て
+@a:1,Kick Batista 1.wav,50,100
+//@b:6,Rim GravelTrap 2.wav,30,80
+@c:4,Snare Amsterdam 2.wav,30,50
+@d:7,OpenHH Bangarang.wav,25,30
+
+
+#l8
+A..d.... c.c.c...
+
+#l4
+a... a... a... a...
+a.c. a.c. a.c. a.c.
+
+#l8
+a..d.... a..d.... a..c.... D.......
+a..d.... a..d.... a..c.... D.......
+A..d.... a..d.... A..c.... D.......
+A..d.... a..d.... A..c.... D.......
+
+#l12
+A.......d... a.....c..d.. a.....c..... d...........
+A.......d... a.....c..d.. a.....c..... d...........
+A.......d... c.....d..... A.....c..... D...........
+A.......d... c.....d..... A.....c..... D...........
+
+#l8
+..c..d.. ..c..d.. ..c..d.. ..a...a.
+..c..d.. ..c..d.. ..c..d.. ..a...a.
+..C..d.. ..C..d.. ..C..d.. a..d....
+..C..d.. ..C..d.. ..C..d.. a..d....
+A....... A....... A....... d.d.d...
+
+#l4
+A.d. a.c. C.d. A...
+A.d. c.a. C.d. C...
+A.d. a.c. C.d. A...
+A.d. c.a. C.d. C...
+
+A.a. c.c. D
+#end
+
+#start
+@a:1,Kick Batista 1.wav,50,100
+//@b:6,Rim GravelTrap 2.wav,30,80
+@c:4,Snare Amsterdam 2.wav,30,50
+@d:7,OpenHH Bangarang.wav,25,30
+@z:1,Kick Batista 1.wav,30,0
+
+#l8
+@p:8,ClosedHH Alessya DS.wav,50,10
+@q:8,ClosedHH Alessya DS.wav,50,20
+@r:8,ClosedHH Alessya DS.wav,50,30
+@s:8,ClosedHH Alessya DS.wav,50,40
+@t:8,ClosedHH Alessya DS.wav,50,50
+@u:8,ClosedHH Alessya DS.wav,50,60
+@v:8,ClosedHH Alessya DS.wav,50,70
+@w:8,ClosedHH Alessya DS.wav,50,80
+pqrstuvw
+@b:6,Rim GravelTrap 2.wav,30,60
+b.
+@b:6,Rim GravelTrap 2.wav,30,40
+b.
+@b:6,Rim GravelTrap 2.wav,30,20
+b.
+@b:6,Rim GravelTrap 2.wav,30,0
+b.
+@b:6,Rim GravelTrap 2.wav,30,80
+
+#l12
+z..a..z..a.d z..a..z..a.d z..a..z..a.d z..a..z..a.d
+A..c..a..c.d A..c..a..c.d A..c..a..c.d A..c..a..c.d
+
+#l8A..z#l12a..c.. #l8A..z#l12a..c.. #l8A..Z#l12...c.. a..c..d..c..
+#l8A..z#l12a..c.. #l8A..z#l12a..c.. #l8A..Z#l12...c.. a..c..d..c..
+#l8A..z#l12..dc.. #l8A..z#l12..dc.. #l8A..Z#l12..dc.. a..c..a.dc..
+#l8A..z#l12..dc.. #l8A..z#l12..dc.. #l8A..Z#l12..dc.. a..c..a.dc..
+
+#l12A..c..a.D... a..c..a..c.d #l8A.#l12c.d #l8aa#l12c.. D..z..z..z..
+#l12A..c..a.D... a..c..a..c.d #l8A.#l12c.d #l8aa#l12c.. D..z..z..z..
+#l12
+A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.da..a..
+A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.dc..c..
+
+#l8
+zzC..d.. zzC..d.. zzC..d.. a.c.a.d.
+zzC..d.. zzC..d.. zzC..d.. a.c.a.d.
+ZzC..d.. ZzC..d.. ZzC..d.. A..d....
+ZzC..d.. ZzC..d.. ZzC..d.. A..d....
+
+D..z..a. D..a..z. D..z..a. b.b.b.b.
+
+#l12
+Z..a..z.da.. Z..a..z.da.. Z..a..z..a.d a..a.da..a..
+Z..c..z.dc.. Z..c..z.dc.. Z..c..z..c.d a..c.da..c..
+Z..a..z.da.. Z..a..z.da.. Z..a..z..a.d a..a.da..a..
+Z..c..z.dc.. Z..c..z.dc.. Z..c..z..c.d a..c.da..c..
+
+a..a..a..c.d a..c..a.dc.. D
+
+#end

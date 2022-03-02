@@ -1,0 +1,122 @@
+//Droppy 曲データのサンプル
+//スラッシュ2つ以降はコメント(無視される)
+//大文字小文字は無視
+//余計なスペースは無視
+//コマンドがだいたいtjaのパクリ...
+
+#droppy //最初にこれが必ず必要
+#title: The Fantasic Taste
+//#subtitle: na trium
+#music: test.mp3 //流す音楽
+//mp3,ogg,wavに対応してるらしい
+//txtファイルと同じフォルダに置く
+#volume: 70 //0〜100
+#bpm: 127 //曲開始時BPM
+#offset: 0 //曲開始タイミングの調整(秒)
+#level: 4, 7 //難易度 かんたん,むずい
+#demo: 75.6, 106 //曲選択で流す範囲(秒) mp3以外は不可?
+//最後まで流す場合は開始時間だけ書く
+
+//(これは SB3版 Drop-3s の譜面の移植)
+//かんたん譜面
+#start
+
+//@アルファベット:色番号,wavファイル,音符スタート位置0〜100(0=真上から、100=右端から)
+//色の一覧はresフォルダを見て
+//wavファイルはtxtファイルと同じフォルダに置く
+@a:2,Kick Amsterdam 1.wav,40,100
+@b:8,Clap AllOfMe.wav,40,60
+@c:6,Snare Bangarang 2.wav,40,30
+@d:1,OpenHH Batista.wav,30,0
+
+// a-z : 通常音符
+// A-Z : 大音符
+//  .  : 休符
+//デフォルトで16分音符間隔
+// #l8 #L8 などと書くと以降8分音符間隔になる
+// 3連符なども可(#l6, #l12 など)
+
+a.a.b...c....... a.a.b...c.......
+a.a.b...c....... a.a.b...c...d...
+a.a.b...C....... a.a.b...C.......
+a.a.b...C....... a.a.b...C...d...
+
+a...a..b....d...a...c..b....d...
+a...a..b....d...a...c..b..a.d...
+a...a..b....d...a...c..b....d...
+a...a..b....d...a...c..b..a.d...
+A...c...a...d...A...c...b...d...
+A...c...a...d...A...c...b.a.d...
+A...c...a...d...A...c...b...d...
+A...c...a...d...A...c...b.a.d...
+
+a...a...a...a...A...C...b.c.d...
+a...a...a...a...A...C...b.c.d...
+a...a...a...a...A...C...b.c.d...
+a...a...a...a...A...C...b.c.d...
+A...c...a...c...A...C...b.c.d...
+A...c...a...c...A...C...b.c.d...
+A...c...a...c...A...C...b.c.d...
+A...c...a...c...A...C...b.c.d...
+
+a...c...a..d....a...c..b....d...
+a...c...a..d....a...c..b..a.d...
+a...c...a..d....a...c..b....d...
+a...c...a..d....a...c..b..a.d...
+A...c...a..d....a...c..b....d...
+A...c...a..d....a...c..b..a.d...
+A...c...a..d....a...c..b....d...
+A...c...a..d....a...c..b..a.d...
+A
+
+#end
+
+//むずい譜面
+#start
+@a:2,Kick Amsterdam 1.wav,40,100
+@b:8,Clap AllOfMe.wav,40,60
+@c:6,Snare Bangarang 2.wav,40,30
+@d:1,OpenHH Batista.wav,30,0
+@e:7,Snare CheapLaughs 1.wav,30,50
+
+a...e.a.a.a.e...a...e.a.a.a.e...
+a...e.a.a.a.e...a...e.a.a.b.d..c
+A...e.aba.a.e.b.A...e.aba.a.e.b.
+A...e.aba.a.e.b.A...e.aba.b.dac.
+
+a.b.e.aba.c.e...a.b.e.aba.c.e...
+a.b.e.aba.c.e...a.b.e.aba.cbd.b.
+a.bde.aba.c.e...a.bde.aba.c.e...
+a.bde.aba.c.e...a.bde.aba.cbd.b.
+A.b.e.abA.c.e.d.A.b.e.abA.c.e.d.
+A.b.e.abA.c.e.d.A.b.e.abA.cbd.b.
+A.bde.abA.c.e.d.A.bde.abA.c.e.d.
+A.bde.abA.c.e.d.A.bde.abA.cbd.b.
+
+a.b.e.d.a.b.e.d.A.d.C.dbA.c.e.d.
+a.b.e.d.a.b.e.d.A.d.C.dbA.c.e.d.
+a.b.e.d.a.b.e.d.A.d.C.dbA.c.e.d.
+a.b.e.d.a.b.e.d.A.d.C.dbA.c.ead.
+a.d.c.d.a.d.c.d.A.d.C.dbA.cbe.d.
+a.d.c.d.a.d.c.d.A.d.C.dbA.cbe.d.
+a.d.c.d.a.d.c.d.A.d.C.dbA.cbe.d.
+a.d.c.d.a.d.c.d.A.d.C.dbA.cbead.
+
+A.b.e.c.a..be.d.A.b.e.bA.ca.e.d.
+A.b.e.c.a..be.d.A.b.e.bA.ca.ebd.
+A.b.e.c.a..be.d.A.b.e.bA.ca.e.d.
+A.b.e.c.a..be.d.A.b.e.bA.ca.ebd.
+A.b.e.c.A..be.d.A.b.e.bA.ca.e.d.
+A.b.e.c.A..be.d.A.b.e.bA.ca.ebd.
+A.b.e.c.A..be.d.A.b.e.bA.ca.e.d.
+A.b.e.c.A..be.d.A.b.e.bA.ca.D...
+
+A.b.e.cB.db.e.d.A.b.e.cA.da.e.d.
+A.b.e.cB.db.e.d.A.b.e.cA.da.ebd.
+A.b.e.cB.db.e.d.A.b.e.cA.da.e.d.
+A.b.e.cB.db.e.d.A.b.e.cA.da.ebd.
+A.b.e.cbA.b.e.d.A.b.e.cA.da.e.d.
+A.b.e.cbA.b.e.d.A.b.e.cA.da.ebd.
+A.b.e.cbA.b.e.d.A.b.e.cA.da.e.d.
+A.b.e.cbA.b.e.d.A.b.e.cA.da.D...
+#end
