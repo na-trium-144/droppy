@@ -705,6 +705,15 @@ class DDraw():
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
+	def rslt_comboclear(self):
+		self.combo_sp.setText("")
+		self.combo_t_sp.setText("")
+		self.combo_sp.update()
+		self.combo_t_sp.update()
+		dirty_rects = self.spgroup.draw(self.screen)
+		# pygame.display.update(dirty_rects)
+		pygame.display.update()
+
 	def rslt_star(self, i):
 		self.star_sp[i].set_image(self.star1_img_org)
 		self.star_sp[i].update()

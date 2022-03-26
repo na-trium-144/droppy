@@ -21,7 +21,13 @@ def main(game_dir):
             ("auto1", "se_auto1.wav", 30),
             ("start", "se_start.wav", 40),
             ("quit", "se_quit.wav", 40),
-            ("combo", "se_combo.wav", 40),
+            ("combo", "se_combo.wav", 30),
+            ("star", "se_star.wav", 30),
+            ("result0", "se_result0.wav", 40),
+            ("result1", "se_result1.wav", 40),
+            ("result2", "se_result2.wav", 40),
+            ("result3", "se_result3.wav", 40),
+            ("newscore", "se_newscore.wav", 40),
             ("title", "se_title.wav", 50)]:
         se[id] = pygame.mixer.Sound(os.path.join(res_dir, file))
         se[id].set_volume(vol / 100)

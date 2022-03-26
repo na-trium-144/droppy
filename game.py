@@ -27,19 +27,20 @@ class DGame():
 	def end(self):
 		clr = self.dresult.get_result()
 
+		self.ddraw.rslt_comboclear()
 		self.ddraw.rslt_rank_t()
 		self.clock.tick(3)
 		for i in range(clr):
 			self.ddraw.rslt_star(i)
+			self.se['star'].play()
 			self.clock.tick(3)
 		self.ddraw.rslt_text(clr)
-		if clr == 0:
-			pass
-		if clr >= 2:
-			pass
+		self.se['result'+str(clr)].play()
+		self.clock.tick(1)
 
 		if not self.auto and self.dresult.score > self.dresult.hiscore:
 			self.ddraw.rslt_hiscore()
+			self.se['newscore'].play()
 			self.dresult.save()
 
 		while True:
