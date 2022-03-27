@@ -706,6 +706,8 @@ class DDraw():
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
 	def rslt_comboclear(self):
+		self.screen.blit(self.bg0_img, (0, 0))
+		self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
 		self.combo_sp.setText("")
 		self.combo_t_sp.setText("")
 		self.combo_sp.update()
