@@ -23,7 +23,7 @@ class DSaveDat:
                 elif ll.startswith("#hcount"):
                     h = int(ll[7])
                     hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
-                    self.hntcount = {i+1:hc_l[i] for i in range(4)}
+                    self.hntcount[h] = {i+1:hc_l[i] for i in range(4)}
         else:
             title_match = False
             for fn in os.listdir(usr_dir):
@@ -59,8 +59,10 @@ class DSaveDat:
                     self.filename = self.filename.replace(".txt", f"_{i}.txt")
 
     def save(self, ex, nscore, nhntcount):
+        print(ex, nscore, nhntcount)
         self.score[ex] = nscore
         self.hntcount[ex] = nhntcount
+        print(self.score, self.hntcount)
         with open(self.filename, "w") as f:
             f.write(f"#title:{self.dmusicfile.meta['title']}\n")
             for h in range(2):
