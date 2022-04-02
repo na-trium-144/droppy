@@ -7,6 +7,7 @@ import os
 from sselect import *
 from game import *
 from gdraw import *
+from title import *
 
 def main(game_dir):
     res_dir = os.path.join(game_dir, "res")
@@ -33,13 +34,17 @@ def main(game_dir):
         se[id].set_volume(vol / 100)
 
     ddraw = DDraw(res_dir)
-    dselect = DSelect(res_dir, music_dir, usr_dir, ddraw, se)
-
-    while not dselect.quit:
-        dselect.main()
-        if dselect.selected_item is not None:
-            dgame = DGame(ddraw, dselect.selected_item, dselect.ex, dselect.auto, se)
-            dgame.main()
+    dtitle = DTitle(res_dir, ddraw, se)
+    while True:
+        dtitle.main()
+        if dtitle.quit:
+            break
+        dselect = DSelect(res_dir, music_dir, usr_dir, ddraw, se)
+        while not dselect.quit:
+            dselect.main()
+            if dselect.selected_item is not None:
+                dgame = DGame(ddraw, dselect.selected_item, dselect.ex, dselect.auto, se)
+                dgame.main()
 
 if __name__ == "__main__":
     #pygame.mixer.pre_init(44100, -16, 2, 64)

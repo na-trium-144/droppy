@@ -120,6 +120,13 @@ rslt_hiscore_t = "ハイスコアこうしん!"
 rslt_hiscore_t_rect = Rect(s_topleft(400 - 120, 200), (240, 60))
 rslt_hiscore_t_color = (255, 255, 0)
 
+tit_title = "リズムゲーム Droppy"
+tit_title_rect = Rect(s_center(0, 630), (1280, 20))
+tit_press = "どれかのキーを押してスタート!"
+tit_press_rect = Rect(s_center(0, 450), (1280, 60))
+tit_copyright = "(c)2020-2022 na trium"
+tit_copyright_rect = Rect(s_center(0, 670), (1280, 20))
+
 #音符スプライト
 #表示前にも音符情報の保持に使用
 class DNoteSprite(pygame.sprite.Sprite):
@@ -558,6 +565,25 @@ class DDraw():
 		self.bg1_s_img = pygame.transform.scale(self.bg1_s_img_org, self.scr_size)
 		for sp in self.spgroup:
 			sp.setscale(self.scr_size, self.scr_scale)
+
+	def tit_init(self):
+		self.spgroup.empty()
+		self.tit_cnt = 0
+
+		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
+		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
+		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
+		for sp in self.spgroup:
+			sp.setscale(self.scr_size, self.scr_scale)
+		
+	def tit_update(self):
+		self.screen.blit(self.bg0_img, (0, 0))
+		self.screen.blit(self.bg1_s_img, (0, 0))
+
+		self.spgroup.update()
+		dirty_rects = self.spgroup.draw(self.screen)
+		# pygame.display.update(dirty_rects)
+		pygame.display.update()
 
 	def sel_init(self, sel_items):
 		self.spgroup.empty()
