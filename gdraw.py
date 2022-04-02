@@ -4,6 +4,8 @@ import os
 import time
 import math
 
+caption = "Droppy ver1.0beta"
+
 scr_size_debug = None #(640, 480)
 
 #1280x720基準で設定し、画面サイズに合わせて拡大縮小
@@ -514,6 +516,8 @@ class DDraw():
 			self.screen = pygame.display.set_mode(scr_size_debug)
 		else:
 			self.screen = pygame.display.set_mode(scr_size_org, RESIZABLE)
+		pygame.display.set_caption(caption)
+		
 		self.spgroup = pygame.sprite.RenderUpdates()
 		pygame.font.init()
 
@@ -575,7 +579,7 @@ class DDraw():
 		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
 		for sp in self.spgroup:
 			sp.setscale(self.scr_size, self.scr_scale)
-		
+
 	def tit_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
