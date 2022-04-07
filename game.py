@@ -19,8 +19,6 @@ class DGame():
 		self.se = se
 
 	def quit(self):
-		self.dresult.save()
-		self.end()
 		self.dmusic.quit()
 		self.se['quit'].play()
 		pygame.time.wait(1500)
