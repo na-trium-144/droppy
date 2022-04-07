@@ -119,7 +119,7 @@ rslt_text = ["しっぱい", "クリア", "フルコンボ!", "パーフェク�
 rslt_text_color = [(255, 255, 255), (255, 255, 255), (255, 255, 0), (255, 255, 0)]
 rslt_text_rect = Rect(s_topleft(400-120, 380), (240, 60))
 rslt_hiscore_t = "ハイスコアこうしん!"
-rslt_hiscore_t_rect = Rect(s_topleft(400 - 120, 200), (240, 60))
+rslt_hiscore_t_rect = Rect(s_topleft(400 - 120, 160), (240, 60))
 rslt_hiscore_t_color = (255, 255, 0)
 
 tit_title = "リズムゲーム Droppy"
@@ -742,16 +742,16 @@ class DDraw():
 		for i in range(3):
 			self.star_sp[i].setscale(self.scr_size, self.scr_scale)
 			self.star_sp[i].update()
+		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
 	def rslt_comboclear(self):
-		self.screen.blit(self.bg0_img, (0, 0))
-		self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
 		self.combo_sp.setText("")
 		self.combo_t_sp.setText("")
 		self.combo_sp.update()
 		self.combo_t_sp.update()
+		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
@@ -759,6 +759,7 @@ class DDraw():
 	def rslt_star(self, i):
 		self.star_sp[i].set_image(self.star1_img_org)
 		self.star_sp[i].update()
+		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
@@ -766,6 +767,7 @@ class DDraw():
 		rslt_text_sp = DTextSprite(self.spgroup, self.font_l, rslt_text[i], rslt_text_rect, 0, rslt_text_color[i])
 		rslt_text_sp.setscale(self.scr_size, self.scr_scale)
 		rslt_text_sp.update()
+		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
@@ -773,14 +775,17 @@ class DDraw():
 		rslt_hiscore_sp = DTextSprite(self.spgroup, self.font_l, rslt_hiscore_t, rslt_hiscore_t_rect, 0, rslt_hiscore_t_color)
 		rslt_hiscore_sp.setscale(self.scr_size, self.scr_scale)
 		rslt_hiscore_sp.update()
+		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
 
-
-	def game_update(self):
+	def game_bg(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
+
+	def game_update(self):
+		self.game_bg()
 
 		self.scgauge_sp.setv(self.dresult.score, self.dresult.scgclrs, self.dresult.scgmaxs)
 
