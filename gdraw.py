@@ -492,20 +492,23 @@ class DImageSprite(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		spgroup.add(self)
 		self.image_org = image
-		self.set_rect = rect
 		self.scr_scale = 1
 		self.scr_size = scr_size_org
+		self.set_rect(rect)
 		self.update_img()
-		self.rect = scale_rect(self.set_rect, self.scr_scale, self.scr_size)
 
 	def setscale(self, scr_size, scale):
 		self.scr_size = scr_size
 		self.scr_scale = scale
 		self.update_img()
-		self.rect = scale_rect(self.set_rect, self.scr_scale, self.scr_size)
+		self.rect = scale_rect(self._set_rect, self.scr_scale, self.scr_size)
 	def set_image(self, image):
 		self.image_org = image
 		self.update_img()
+	def set_rect(self, rect):
+		self._set_rect = rect
+		self.rect = scale_rect(self._set_rect, self.scr_scale, self.scr_size)
+
 	def update_img(self):
 		self.image = pygame.transform.smoothscale(self.image_org, [self.scr_scale * self.image_org.get_size()[i] for i in range(2)])
 
@@ -517,7 +520,7 @@ class DDraw():
 		else:
 			self.screen = pygame.display.set_mode(scr_size_org, RESIZABLE)
 		pygame.display.set_caption(caption)
-		
+
 		self.spgroup = pygame.sprite.RenderUpdates()
 		pygame.font.init()
 
@@ -531,6 +534,7 @@ class DDraw():
 		self.bg0_img_org = pygame.image.load(os.path.join(res_dir, "bg0.png")).convert_alpha()
 		self.bg1_img_org = pygame.image.load(os.path.join(res_dir, "bg1.png")).convert_alpha()
 		self.bg1_s_img_org = pygame.image.load(os.path.join(res_dir, "bg1_s.png")).convert_alpha()
+		self.logo_big_img_org = pygame.image.load(os.path.join(res_dir, "logo_big.png")).convert_alpha()
 		self.star0_img_org = pygame.image.load(os.path.join(res_dir, "star0.png")).convert_alpha()
 		self.star1_img_org = pygame.image.load(os.path.join(res_dir, "star1.png")).convert_alpha()
 
@@ -577,12 +581,18 @@ class DDraw():
 		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
 		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
 		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
+		self.logo_big_sp = DImageSprite(self.spgroup, self.logo_big_img_org, Rect(s_center(0, 0), self.scr_size))
 		for sp in self.spgroup:
 			sp.setscale(self.scr_size, self.scr_scale)
 
 	def tit_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
+
+		bx = 25 * math.sin(0.017 * self.tit_cnt)
+		by = 25 * math.cos(0.026 * self.tit_cnt)
+		self.logo_big_sp.set_rect(Rect(s_center(bx, by), self.scr_size))
+		self.tit_cnt += 1
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
