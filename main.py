@@ -52,7 +52,11 @@ if __name__ == "__main__":
     #pygame.mixer.init(44100, -16, 2, 64)
     pygame.init()
     pygame.mixer.init(44100, -16, 2, 64)
-
-    main(os.path.dirname(__file__))
+    print(sys.executable)
+    if getattr(sys, "frozen", False):
+       datadir = os.path.dirname(sys.executable)
+    else:
+       datadir = os.path.dirname(__file__)
+    main(datadir)
 
     pygame.quit()
