@@ -61,7 +61,7 @@ class DMusicFile():
 		self.demo_range = None
 		self.droppy = False
 		self.item_sp = None
-		with open(self.filename, "r") as dat_f:
+		with open(self.filename, "r", encoding="utf-8") as dat_f:
 			dat_l = dat_f.readlines()
 			for l in dat_l:
 				if "//" in l:
@@ -100,7 +100,7 @@ class DMusicFile():
 		self.notedef = [DNoteInfo(3,None,50,100) for _ in range(26)]
 
 		self.dat.append(DEvent(-round(self.delay * game_fps), DEventType.MusicPlay, None))
-		with open(self.filename, "r") as dat_f:
+		with open(self.filename, "r", encoding="utf-8") as dat_f:
 			dat_l = dat_f.readlines()
 			for i in range(ex):
 				while not dat_l.pop(0).lower().startswith("#start"):

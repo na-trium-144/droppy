@@ -12,7 +12,7 @@ class DSaveDat:
 		path_r = os.path.join(usr_dir, filename_r)
 		self.filename = path_r
 		if os.path.exists(path_r):
-			with open(path_r, "r") as f:
+			with open(path_r, "r", encoding="utf-8") as f:
 				dat = f.readlines()
 			for l in dat:
 				l = l.strip()
@@ -28,7 +28,7 @@ class DSaveDat:
 			title_match = False
 			for fn in os.listdir(usr_dir):
 				if fn.endswith(".txt"):
-					with open(os.path.join(usr_dir, fn), "r") as f:
+					with open(os.path.join(usr_dir, fn), "r", encoding="utf-8") as f:
 						dat = f.readlines()
 					for l in dat:
 						l = l.strip()
@@ -63,7 +63,7 @@ class DSaveDat:
 		self.score[ex] = nscore
 		self.hntcount[ex] = nhntcount
 		print(self.score, self.hntcount)
-		with open(self.filename, "w") as f:
+		with open(self.filename, "w", encoding="utf-8") as f:
 			f.write(f"#title:{self.dmusicfile.meta['title']}\n")
 			for h in range(2):
 				f.write(f"#score{h}:{self.score[h]}\n")
