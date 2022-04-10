@@ -95,6 +95,12 @@ item_ofs = [
 ]
 item_align = {'title':-1, 'subtitle':-1, 'level0':1, 'level1':1, 'hard0':1, 'hard1':1}
 
+hscore_bg_x = 1280-500
+hscore_bg_y = 360+80
+hscore_bg_wh = (450, 600-hscore_bg_y)
+hscore_bg_rect = Rect(s_bottomright(hscore_bg_x, hscore_bg_y), hscore_bg_wh)
+hscore_score_rect = Rect()
+
 ss_help_t = [
 	(" [W]/[S]",     " [A]/[D]",        "",             "[Space]"),
 	("         きょく","         なんいど","[P] オート: {}","        スタート"),
@@ -512,6 +518,29 @@ class DImageSprite(pygame.sprite.Sprite):
 	def update_img(self):
 		self.image = pygame.transform.smoothscale(self.image_org, [self.scr_scale * self.image_org.get_size()[i] for i in range(2)])
 
+class DSquareSprite(pygame.sprite.Sprite):
+	def __init__(self, spgroup, color, rect):
+		pygame.sprite.Sprite.__init__(self)
+		spgroup.add(self)
+		self.color = color
+		self.scr_scale = 1
+		self.scr_size = scr_size_org
+		self.set_rect(rect)
+		self.update_img()
+
+	def setscale(self, scr_size, scale):
+		self.scr_size = scr_size
+		self.scr_scale = scale
+		self.rect = scale_rect(self._set_rect, self.scr_scale, self.scr_size)
+		self.update_img()
+	def set_rect(self, rect):
+		self._set_rect = rect
+		self.rect = scale_rect(self._set_rect, self.scr_scale, self.scr_size)
+
+	def update_img(self):
+		self.image = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+		self.image.fill(self.color)
+
 
 class DDraw():
 	def __init__(self, res_dir):
@@ -619,6 +648,8 @@ class DDraw():
 			# iteminfo.sp['title'] = DTextSprite(self.font_s, iteminfo.value['title'], Rect(0,0,0,0), -1)
 			iteminfo.item_sp.setscale(self.scr_size, self.scr_scale)
 			# self.spgroup.add(iteminfo.tit1_sp)
+
+		self.score_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), score_bg_rect)
 
 		self.sel_items = sel_items
 		self.sel_num = 0
