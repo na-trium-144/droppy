@@ -21,6 +21,7 @@ options = {
 	},
 	"bdist_mac": {
 		"bundle_name": title,
+		"iconfile": "AppIcon.icns",
 	},
 	"bdist_dmg": {
 		"volume_label": title_ver,

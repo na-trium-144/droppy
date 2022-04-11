@@ -1,6 +1,7 @@
 #custom
 usr/
 .DS_Store
+AppIcon.icns
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
