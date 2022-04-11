@@ -71,11 +71,12 @@ if __name__ == "__main__":
 	print(sys.executable)
 	if getattr(sys, "frozen", False):
 		datadir = os.path.dirname(sys.executable)
+		try:
+			main(datadir)
+		except Exception as e:
+			with open(os.path.join(datadir, "exception.txt"), "w", encoding="utf-8") as ef:
+				ef.write(str(e))
 	else:
 		datadir = os.path.dirname(__file__)
-	try:
 		main(datadir)
-	except Exception as e:
-		with open(os.path.join(datadir, "exception.txt"), "w", encoding="utf-8") as ef:
-			ef.write(str(e))
 	pygame.quit()
