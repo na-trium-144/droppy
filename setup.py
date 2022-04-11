@@ -10,8 +10,13 @@ title_ver = f"{title}_{ver}"
 # "packages": ["os"] is used as example only
 options = {
     "build_exe": {
-	    # "packages": [],
-	    # "excludes": [],
+        # "collections","encodings","importlib","pygame"だけ残す
+	    "excludes": [
+            "apport","apt","backports","certifi","cffi","chardet","cryptography","ctypes","curses",
+            "distutils","email","html","http","httplib2","idna","json","jwt","keyring","launchpadlib","lazr","logging",
+            "numpy","oauthlib","OpenGL","pkg_resources","pydoc_data","psutil","pytz","requests","setuptools","simplejson",
+            "tkinter","unittest","urllib","urllib3","wadllib","xml","xmlrpc"
+        ],
 	    "include_files": ["music", "res"],
     },
     "bdist_mac": {
