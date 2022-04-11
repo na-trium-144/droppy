@@ -178,7 +178,7 @@ class DMusicFile():
 
 def dmusicfile_list(music_dir, usr_dir):
 	dfiles = []
-	for root, dirs, files in os.walk(top=music_dir):
+	for root, dirs, files in sorted(os.walk(top=music_dir)):
 		for file in files:
 			if file.lower().endswith('.txt'):
 				file = os.path.join(root, file)
