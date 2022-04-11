@@ -63,6 +63,7 @@ hard_t = ("かんたん  " + lv_t, "むずい  " + lv_t)
 hard_rect = Rect(s_bottomright(1240-70,630), (70,60))
 auto_rect = Rect(s_bottomright(200,490), (1040,40))
 auto_t = "[オートプレイ]"
+logo_s_rect = Rect(s_bottomright(1240-750/4,380), (750/4, 350/4))
 
 score_t_rect = Rect(s_topleft(40,40), (180,60))
 score_t = "スコア"
@@ -520,6 +521,7 @@ class DDraw():
 		else:
 			self.screen = pygame.display.set_mode(scr_size_org, RESIZABLE)
 		pygame.display.set_caption(caption)
+		pygame.display.set_icon(pygame.image.load(os.path.join(res_dir,"icon.png")).convert_alpha())
 
 		self.spgroup = pygame.sprite.RenderUpdates()
 		pygame.font.init()
@@ -534,7 +536,7 @@ class DDraw():
 		self.bg0_img_org = pygame.image.load(os.path.join(res_dir, "bg0.png")).convert_alpha()
 		self.bg1_img_org = pygame.image.load(os.path.join(res_dir, "bg1.png")).convert_alpha()
 		self.bg1_s_img_org = pygame.image.load(os.path.join(res_dir, "bg1_s.png")).convert_alpha()
-		self.logo_big_img_org = pygame.image.load(os.path.join(res_dir, "logo_big.png")).convert_alpha()
+		self.logo_big_img_org = pygame.image.load(os.path.join(res_dir, "logo.png")).convert_alpha()
 		self.star0_img_org = pygame.image.load(os.path.join(res_dir, "star0.png")).convert_alpha()
 		self.star1_img_org = pygame.image.load(os.path.join(res_dir, "star1.png")).convert_alpha()
 
@@ -589,8 +591,8 @@ class DDraw():
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
 
-		bx = 25 * math.sin(0.017 * self.tit_cnt)
-		by = 25 * math.cos(0.026 * self.tit_cnt)
+		bx = 240 + 25 * math.sin(0.017 * self.tit_cnt)
+		by = 60 + 25 * math.cos(0.026 * self.tit_cnt)
 		self.logo_big_sp.set_rect(Rect(s_center(bx, by), self.scr_size))
 		self.tit_cnt += 1
 
@@ -667,6 +669,8 @@ class DDraw():
 		self.level = dmusic.level
 		self.dresult = dresult
 		self.auto = auto
+
+		DImageSprite(self.spgroup, pygame.transform.smoothscale(self.logo_big_img_org, logo_s_rect.size), logo_s_rect)
 
 		DTextSprite(self.spgroup, self.font_tl, self.title, title_rect, 1)
 		DTextSprite(self.spgroup, self.font_ts, self.subtitle, subtitle_rect, 1)
