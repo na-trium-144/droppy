@@ -37,7 +37,7 @@ if sys.platform == "win32":
 setup(
 	name=title,
 	version=ver,
-	description="Music Game Droppy",
+	description=title,
 	options=options,
 	executables=[Executable("main.py", base=base, icon="res/icon.ico")],
 )

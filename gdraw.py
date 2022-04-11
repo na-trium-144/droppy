@@ -4,7 +4,7 @@ import os
 import time
 import math
 
-caption = "Droppy ver1.0beta"
+caption = "Droppy ver1.0"
 
 scr_size_debug = None #(640, 480)
 
