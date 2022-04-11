@@ -601,7 +601,7 @@ class DDraw():
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
 
-	def sel_init(self, sel_items):
+	def sel_init(self, sel_items, sel_num, ex, auto):
 		self.spgroup.empty()
 
 		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
@@ -623,9 +623,9 @@ class DDraw():
 			# self.spgroup.add(iteminfo.tit1_sp)
 
 		self.sel_items = sel_items
-		self.sel_num = 0
-		self.set_ex(0)
-		self.set_auto(False)
+		self.sel_num = sel_num
+		self.set_ex(ex)
+		self.set_auto(auto)
 		self.sel_update()
 		pygame.display.update()
 

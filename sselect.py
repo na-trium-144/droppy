@@ -18,13 +18,13 @@ class DSelect():
 		# self.sel_items.append(DSelItem({"title":"あいうえおあいうえおああああabcde123456789", 'subtitle':"sub1", 'level_easy':"1", 'level_hard':"2"}))
 		# self.sel_items.append(DSelItem({"title":"bbb", 'subtitle':"sub2", 'level_easy':"3", 'level_hard':"4"}))
 		self.quit = False
-
-	def main(self):
-		self.ddraw.sel_init(self.sel_items)
-
 		self.sel_num = 0
 		self.ex = 0
 		self.auto = False
+
+	def main(self):
+		self.ddraw.sel_init(self.sel_items, self.sel_num, self.ex, self.auto)
+
 		self.clock = pygame.time.Clock()
 		self.selected_item = None
 		sel_cnt = 0
