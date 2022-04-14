@@ -12,9 +12,25 @@ from title import *
 def main(game_dir):
 	res_dir = os.path.join(game_dir, "res")
 	music_dir = os.path.join(game_dir, "music")
-	usr_dir = os.path.join(game_dir, "usr")
-	if not os.path.exists(usr_dir):
-		os.mkdir(usr_dir)
+	# usr_dir = os.path.join(game_dir, "usr")
+	usr_dir = ""
+	usr_dir_list = ["~/Documents/Droppy", "~/ドキュメント/Droppy", "~/Droppy", os.path.join(game_dir, "usr")]
+	for d in usr_dir_list:
+		xd = os.path.expanduser(d)
+		if os.path.exists(xd):
+			usr_dir = xd
+			break
+	if not usr_dir:
+		for d in usr_dir_list:
+			xd = os.path.expanduser(d)
+			if not os.path.exists(xd):
+				try:
+					os.mkdir(xd)
+				except:
+					continue
+			usr_dir = xd
+			break
+	print(f"usr_dir: {usr_dir}")
 	se = {}
 	for (id, file, vol) in [("selmusic", "se_selmusic.wav", 50),
 			("selhard", "se_selhard.wav", 30),
@@ -54,9 +70,13 @@ if __name__ == "__main__":
 	pygame.mixer.init(44100, -16, 2, 64)
 	print(sys.executable)
 	if getattr(sys, "frozen", False):
-	   datadir = os.path.dirname(sys.executable)
+		datadir = os.path.dirname(sys.executable)
+		try:
+			main(datadir)
+		except Exception as e:
+			with open(os.path.join(datadir, "exception.txt"), "w", encoding="utf-8") as ef:
+				ef.write(str(e))
 	else:
-	   datadir = os.path.dirname(__file__)
-	main(datadir)
-
+		datadir = os.path.dirname(__file__)
+		main(datadir)
 	pygame.quit()

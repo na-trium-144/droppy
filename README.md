@@ -9,6 +9,9 @@ pip3 install pygame
 ```
 * Linuxで音ズレが訪れる場合はpactlとかいじると直るかも
 
+## 遊び方
+* ReadMe.txt に書きました
+
 ## バイナリの生成
 * cx_Freezeでバイナリを作成します
 ```
