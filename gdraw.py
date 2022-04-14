@@ -85,6 +85,7 @@ combo_large_rect = Rect(s_topleft(400-60-120,240-75), (120*3,75*3))
 # easy, hard, easy_selected, hard_selected
 item_wh = [(720, 60), (720, 60), (900, 135), (900, 135)]
 item_span_y = 90
+item_center_y = -80
 item_selected_span_y = 30
 item_bkcolor = [(64, 127, 255), (255, 127, 64), (64, 127, 255), (255, 127, 64)]
 item_color = [(255, 255, 255), (255, 255, 0), (255, 255, 255), (255, 255, 0)]
@@ -96,11 +97,25 @@ item_ofs = [
 ]
 item_align = {'title':-1, 'subtitle':-1, 'level0':1, 'level1':1, 'hard0':1, 'hard1':1}
 
-hscore_bg_x = 1280-500
-hscore_bg_y = 360+80
-hscore_bg_wh = (450, 600-hscore_bg_y)
+hscore_bg_x = 1280 - 450
+hscore_bg_y = 720/2 + item_center_y + 80
+hscore_bg_w = 400
+hscore_bg_h = 190
+hscore_bg_wh = (hscore_bg_w, hscore_bg_h)
 hscore_bg_rect = Rect(s_bottomright(hscore_bg_x, hscore_bg_y), hscore_bg_wh)
-hscore_score_rect = Rect()
+hscore_score_t_rect = Rect(s_bottomright(hscore_bg_x+20, hscore_bg_y+20),(hscore_bg_w-40,80))
+hscore_score_rect = Rect(s_bottomright(hscore_bg_x+20, hscore_bg_y+10),(hscore_bg_w-40,40))
+hscore_score_t = "ハイスコア"
+hscore_star_rect = Rect(s_bottomright(hscore_bg_x+20, hscore_bg_y+50),(140,40))
+hscore_star_t = "ランク"
+hscore_hnt_t_rect = {
+    i:Rect(s_bottomright(hscore_bg_x+20+90*(i-1),hscore_bg_y+100), (90, 40))
+    for i in range(1,5)
+}
+hscore_hnt_rect = {
+    i:Rect(s_bottomright(hscore_bg_x+20+15+90*(i-1),hscore_bg_y+140), (60, 40))
+    for i in range(1,5)
+}
 
 ss_help_t = [
 	(" [W]/[S]",     " [A]/[D]",        "",             "[Space]"),
@@ -651,7 +666,19 @@ class DDraw():
 			iteminfo.item_sp.setscale(self.scr_size, self.scr_scale)
 			# self.spgroup.add(iteminfo.tit1_sp)
 
-		self.score_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), score_bg_rect)
+		self.hscore_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), hscore_bg_rect)
+		self.hscore_score_t_sp = DTextSprite(self.spgroup, self.font_s, hscore_score_t, hscore_score_t_rect)
+		self.hscore_score_sp = DTextSprite(self.spgroup, self.font_n, "", hscore_score_rect, align=1)
+		#self.hscore_star_t_sp = DTextSprite(self.spgroup, self.font_s, hscore_star_t, hscore_star_rect)
+		self.hscore_star_sp = DTextSprite(self.spgroup, self.font_s, "", hscore_star_rect, align=0, color=(255,255,0))
+		self.hscore_hnt_t_sp = {
+			i:DTextSprite(self.spgroup, self.font_s, hnt_t[i], hscore_hnt_t_rect[i], align=0)
+			for i in range(1,5)
+		}
+		self.hscore_hnt_sp = {
+			i:DTextSprite(self.spgroup, self.font_s, "", hscore_hnt_rect[i], align=1)
+			for i in range(1,5)
+		}
 
 		self.sel_items = sel_items
 		self.sel_num = sel_num
@@ -679,13 +706,30 @@ class DDraw():
 			iteminfo.item_sp.setstate(self.ex, n == self.sel_num)
 			(i_w, i_h) = iteminfo.item_sp.size_org
 			i_x = - i_w / 2
-			i_y = - i_h / 2 + item_span_y * (n - self.sel_num)
+			i_y = - i_h / 2 + item_center_y + item_span_y * (n - self.sel_num)
 			if n < self.sel_num:
 				i_y -= item_selected_span_y
 			if n > self.sel_num:
 				i_y += item_selected_span_y
 			iteminfo.item_sp.setxy((i_x, i_y))
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
+
+		hsc_score = self.sel_items[self.sel_num].dsavedat.score[self.ex]
+		hsc_hnt = self.sel_items[self.sel_num].dsavedat.hntcount[self.ex]
+		self.hscore_score_sp.setText(str(hsc_score))
+		clr = 0
+		if hsc_score < 80000:
+			clr = 0 # fail
+		elif hsc_hnt[3] + hsc_hnt[4] > 0:
+			clr = 1 # clear
+		elif hsc_hnt[2] + hsc_hnt[3] + hsc_hnt[4] > 0:
+			clr = 2 # full combo
+		else:
+			clr = 3 # perfect
+		self.hscore_star_sp.setText("★"*clr)
+		for i in range(1,5):
+			self.hscore_hnt_sp[i].setText(str(hsc_hnt[i]))
+
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
