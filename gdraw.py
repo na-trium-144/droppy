@@ -116,6 +116,20 @@ hscore_hnt_rect = {
     i:Rect(s_bottomright(hscore_bg_x+20+15+90*(i-1),hscore_bg_y+140), (60, 40))
     for i in range(1,5)
 }
+starall_bg_x = 50
+starall_bg_y = hscore_bg_y + 40
+starall_bg_w = 250
+starall_bg_h = 150
+starall_bg_rect = Rect(s_topleft(starall_bg_x, starall_bg_y), (starall_bg_w, starall_bg_h))
+starall_t1 = "きろく ごうけい"
+starall_t1_rect = Rect(s_topleft(starall_bg_x+20, starall_bg_y+20),(starall_bg_w-40,40))
+starall_t2 = ""
+starall_t2_rect = Rect(s_topleft(starall_bg_x+20+70, starall_bg_y+20),(starall_bg_w-40,40))
+starall_t3 = "★"
+starall_t3_rect = Rect(s_topleft(starall_bg_x+20, starall_bg_y+60+5),(300,40))
+starall_t4 = "x"
+starall_t4_rect = Rect(s_topleft(starall_bg_x+20+70, starall_bg_y+60+5),(300,40))
+starall_star_rect = Rect(s_topleft(starall_bg_x+20, starall_bg_y+60), (starall_bg_w-40-5,80))
 
 ss_help_t = [
 	(" [W]/[S]",     " [A]/[D]",        "",             "[Space]"),
@@ -680,6 +694,14 @@ class DDraw():
 			for i in range(1,5)
 		}
 
+		self.starall_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), starall_bg_rect)
+		self.starall_t1_sp = DTextSprite(self.spgroup, self.font_s, starall_t1, starall_t1_rect, align=0)
+		# self.starall_t2_sp = DTextSprite(self.spgroup, self.font_s, starall_t2, starall_t2_rect, align=-1, color=(255,255,0))
+		self.starall_t3_sp = DTextSprite(self.spgroup, self.font_l, starall_t3, starall_t3_rect, color=(255,255,0))
+		self.starall_t4_sp = DTextSprite(self.spgroup, self.font_l, starall_t4, starall_t4_rect)
+		self.starall_star_sp = DTextSprite(self.spgroup, self.font_n, "", starall_star_rect, align=1)
+		self.starall_num = 0
+		
 		self.sel_items = sel_items
 		self.sel_num = sel_num
 		self.set_ex(ex)
