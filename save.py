@@ -6,6 +6,7 @@ class DSaveDat:
 	def __init__(self, usr_dir, dmusicfile):
 		self.score = [0, 0]
 		self.hntcount = [{1:0, 2:0, 3:0, 4:0} for _ in range(2)]
+		self.star = [0, 0]
 		self.dmusicfile = dmusicfile
 
 		filename_r = dmusicfile.filename_r.replace("\\", "/").replace("./", "").replace("/", "_")
@@ -24,6 +25,9 @@ class DSaveDat:
 					h = int(ll[7])
 					hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
 					self.hntcount[h] = {i+1:hc_l[i] for i in range(4)}
+				elif ll.startswith("#star"):
+					h = int(ll[5])
+					self.star[h] = int(ll[ll.find(":")+1:])
 		else:
 			title_match = False
 			for fn in os.listdir(usr_dir):
@@ -50,6 +54,9 @@ class DSaveDat:
 								h = int(ll[7])
 								hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
 								self.hntcount = {i+1:hc_l[i] for i in range(4)}
+							elif ll.startswith("#star"):
+								h = int(ll[5])
+								self.star[h] = int(ll[ll.find(":")+1:])
 						break
 			if not title_match:
 				if os.path.exists(self.filename):
@@ -58,13 +65,15 @@ class DSaveDat:
 						i += 1
 					self.filename = self.filename.replace(".txt", f"_{i}.txt")
 
-	def save(self, ex, nscore, nhntcount):
+	def save(self, ex, nscore, nhntcount, star):
 		print(ex, nscore, nhntcount)
 		self.score[ex] = nscore
 		self.hntcount[ex] = nhntcount
+		self.star[ex] = star
 		print(self.score, self.hntcount)
 		with open(self.filename, "w", encoding="utf-8") as f:
 			f.write(f"#title:{self.dmusicfile.meta['title']}\n")
 			for h in range(2):
 				f.write(f"#score{h}:{self.score[h]}\n")
 				f.write(f"#hcount{h}:{self.hntcount[h][1]},{self.hntcount[h][2]},{self.hntcount[h][3]},{self.hntcount[h][4]}\n")
+				f.write(f"#star{h}:{self.star[h]}\n")

@@ -701,8 +701,13 @@ class DDraw():
 		self.starall_t4_sp = DTextSprite(self.spgroup, self.font_l, starall_t4, starall_t4_rect)
 		self.starall_star_sp = DTextSprite(self.spgroup, self.font_n, "", starall_star_rect, align=1)
 		self.starall_num = 0
-		
+		self.starall_disp = 0
+
 		self.sel_items = sel_items
+		for si in self.sel_items:
+			self.starall_num += si.dsavedat.star[0]
+			self.starall_num += si.dsavedat.star[1]
+
 		self.sel_num = sel_num
 		self.set_ex(ex)
 		self.set_auto(auto)
@@ -751,6 +756,10 @@ class DDraw():
 		self.hscore_star_sp.setText("★"*clr)
 		for i in range(1,5):
 			self.hscore_hnt_sp[i].setText(str(hsc_hnt[i]))
+		self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
+		if self.starall_disp > self.starall_num:
+			self.starall_disp = self.starall_num
+		self.starall_star_sp.setText(str(round(self.starall_disp)))
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)

@@ -18,7 +18,7 @@ class DResult:
 		self.hiscore = dsavedat.score[ex]
 
 	def save(self):
-		self.dsavedat.save(self.ex, self.score, self.hntcount)
+		self.dsavedat.save(self.ex, self.score, self.hntcount, self.get_result())
 
 	def get_result(self):
 		if self.score < self.scgclrs:
