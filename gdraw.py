@@ -570,7 +570,7 @@ class DSquareSprite(pygame.sprite.Sprite):
 	def setScale(self, scr_size, scale):
 		self.scr_size = scr_size
 		self.scr_scale = scale
-		self.rect.setScale(self.scr_size, seld.scr_scale)
+		self.rect.setScale(self.scr_size, self.scr_scale)
 		self.updateImg()
 	def setRect(self, rect):
 		self.rect = rect
@@ -717,6 +717,9 @@ class DDraw():
 			self.starall_num += si.dsavedat.star[0]
 			self.starall_num += si.dsavedat.star[1]
 
+		for sp in self.spgroup:
+			sp.setScale(self.scr_size, self.scr_scale)
+
 		self.sel_num = sel_num
 		self.set_ex(ex)
 		self.set_auto(auto)
@@ -769,6 +772,7 @@ class DDraw():
 		if self.starall_disp > self.starall_num:
 			self.starall_disp = self.starall_num
 		self.starall_star_sp.setText(str(round(self.starall_disp)))
+
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
