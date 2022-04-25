@@ -753,19 +753,12 @@ class DDraw():
 			iteminfo.item_sp.setXY((i_x, i_y))
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
 
-		hsc_score = self.sel_items[self.sel_num].dsavedat.score[self.ex]
-		hsc_hnt = self.sel_items[self.sel_num].dsavedat.hntcount[self.ex]
+		savedat = self.sel_items[self.sel_num].dsavedat
+		hsc_score = savedat.score[self.ex]
+		hsc_hnt = savedat.hntcount[self.ex]
+		hsc_star = savedat.star[self.ex]
 		self.hscore_score_sp.setText(str(hsc_score))
-		clr = 0
-		if hsc_score < 80000:
-			clr = 0 # fail
-		elif hsc_hnt[3] + hsc_hnt[4] > 0:
-			clr = 1 # clear
-		elif hsc_hnt[2] + hsc_hnt[3] + hsc_hnt[4] > 0:
-			clr = 2 # full combo
-		else:
-			clr = 3 # perfect
-		self.hscore_star_sp.setText("★"*clr)
+		self.hscore_star_sp.setText("★"*hsc_star)
 		for i in range(1,5):
 			self.hscore_hnt_sp[i].setText(str(hsc_hnt[i]))
 		self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
