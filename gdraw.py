@@ -96,6 +96,7 @@ item_ofs = [
 	{'title':(30, 20), 'subtitle':(30, 90), 'level1':(870, 60), 'hard1':(800, 90)}
 ]
 item_align = {'title':-1, 'subtitle':-1, 'level0':1, 'level1':1, 'hard0':1, 'hard1':1}
+item_anim_t = 15 / 60
 
 hscore_bg_x = 1280 - 450
 hscore_bg_y = 720/2 + item_center_y + 80
@@ -496,32 +497,54 @@ class DSelItemSprite(pygame.sprite.Sprite):
 		self.set_xy = (0, 0)
 		self.scr_size = scr_size_org
 		self.scr_scale = 1
+		self.img_state = 0
+		self.state = 0
+		self.anim_start = None
 		self.setstate(False, False)
 
 	def setscale(self, scr_size, scale):
 		self.scr_size = scr_size
 		self.scr_scale = scale
-		self.update_img()
 		self.update_rect()
+		self.update_img()
 
 	def update_img(self):
-		self.image = pygame.transform.smoothscale(self.set_image[self.state], [self.scr_scale * self.set_image[self.state].get_size()[i] for i in range(2)])
+		scalex = 1
+		if self.anim_start is not None:
+			t = time.time() - self.anim_start
+			if self.state & 2:
+				scalex = abs(math.cos(t / item_anim_t * math.pi / 2))
+		self.image = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+		image_s = pygame.transform.smoothscale(self.set_image[self.img_state], (self.scr_scale * self.set_image[self.img_state].get_width() * scalex, self.scr_scale * self.set_image[self.img_state].get_height()))
+		self.image.blit(image_s, (self.rect.width / 2 * (1 - scalex), 0))
 
 	def update_rect(self):
 		self.rect = scale_rect(Rect(self.set_xy, self.size_org), self.scr_scale, self.scr_size)
 		# 中央揃え
 
 	def setstate(self, ex, selected):
+		if bool(self.state & 1) != ex:
+			self.anim_start = time.time()
 		self.state = (1 if ex else 0) + (2 if selected else 0)
+		self.img_state = (self.img_state & 1) | (2 if selected else 0)
 		self.size_org = item_wh[self.state]
-		self.update_img()
 		self.update_rect()
+		self.update_img()
 
 	def setxy(self, xy):
 		# (x,y) = xy
 		# self.set_xy = s_topleft(x,y)
 		self.set_xy = xy
 		self.update_rect()
+
+	def update(self):
+		if self.anim_start is not None:
+			t = time.time() - self.anim_start
+			if t >= item_anim_t and self.img_state != self.state:
+				self.img_state = self.state
+			if t > 2*item_anim_t:
+				self.anim_start = None
+			self.update_img()
 
 class DImageSprite(pygame.sprite.Sprite):
 	def __init__(self, spgroup, image, rect):
