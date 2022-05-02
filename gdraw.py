@@ -99,6 +99,8 @@ item_ofs = [
 	{'title':(30, 20), 'subtitle':(30, 90), 'level1':(870, 60), 'hard1':(800, 90)}
 ]
 item_align = {'title':-1, 'subtitle':-1, 'level0':1, 'level1':1, 'hard0':1, 'hard1':1}
+item_anim_t = 15 / 60
+item_ofs_t = 10 / 60
 
 hscore_bg_x = 1280 - 450
 hscore_bg_y = 720/2 + item_center_y + 80
@@ -502,35 +504,69 @@ class DSelItemSprite(pygame.sprite.Sprite):
 					ofs_x -= txt_img.get_width()
 				self.set_image[i].blit(txt_img, (ofs_x, ofs_y))
 		self.set_xy = (0, 0)
+		self.old_xy = (0, 0)
 		self.scr_size = scr_size_org
 		self.scr_scale = 1
+		self.img_state = 0
+		self.state = 0
+		self.anim_start = None
+		self.ofs_start = None
 		self.setState(False, False)
 
 	def setScale(self, scr_size, scale):
 		self.scr_size = scr_size
 		self.scr_scale = scale
-		self.updateImg()
 		self.updateRect()
+		self.updateImg()
 
 	def updateImg(self):
-		self.image = pygame.transform.smoothscale(self.set_image[self.state], [self.scr_scale * self.set_image[self.state].get_size()[i] for i in range(2)])
+		scalex = 1
+		if self.anim_start is not None:
+			t = time.time() - self.anim_start
+			if self.state & 2:
+				scalex = abs(math.cos(t / item_anim_t * math.pi / 2))
+		self.image = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+		image_s = pygame.transform.smoothscale(self.set_image[self.img_state], (self.scr_scale * self.set_image[self.img_state].get_width() * scalex, self.scr_scale * self.set_image[self.img_state].get_height()))
+		self.image.blit(image_s, (self.rect.width / 2 * (1 - scalex), 0))
 
 	def updateRect(self):
-		self.rect = AlignedRect(0, self.set_xy, self.size_org)
+		xy = self.set_xy
+		if self.ofs_start is not None:
+			xy = (self.set_xy[0], self.old_xy[1] + (self.set_xy[1] - self.old_xy[1]) * (time.time() - self.ofs_start) / item_ofs_t)
+		self.rect = AlignedRect(0, xy, self.size_org)
 		self.rect.setScale(self.scr_size, self.scr_scale)
 		# 中央揃え
 
 	def setState(self, ex, selected):
+		if bool(self.state & 1) != ex:
+			self.anim_start = time.time()
 		self.state = (1 if ex else 0) + (2 if selected else 0)
+		self.img_state = (self.img_state & 1) | (2 if selected else 0)
 		self.size_org = item_wh[self.state]
-		self.updateImg()
 		self.updateRect()
+		self.updateImg()
 
-	def setXY(self, xy):
+	def setXY(self, xy, anim=False):
 		# (x,y) = xy
 		# self.set_xy = s_topleft(x,y)
+		if anim:
+			self.ofs_start = time.time()
 		self.set_xy = xy
 		self.updateRect()
+
+	def update(self):
+		if self.anim_start is not None:
+			t = time.time() - self.anim_start
+			if t >= item_anim_t and self.img_state != self.state:
+				self.img_state = self.state
+			if t > 2*item_anim_t:
+				self.anim_start = None
+			self.updateImg()
+		if self.ofs_start is not None:
+			if time.time() - self.ofs_start > item_ofs_t:
+				self.ofs_start = None
+				self.old_xy = self.set_xy
+			self.updateRect()
 
 class DImageSprite(pygame.sprite.Sprite):
 	def __init__(self, spgroup, image, rect):
@@ -723,17 +759,26 @@ class DDraw():
 		self.sel_num = sel_num
 		self.set_ex(ex)
 		self.set_auto(auto)
+
+		self.select_anim = False
+		self.sel_redraw_unselect()
+
 		self.sel_update()
 		pygame.display.update()
 
 	def set_sel_num(self, num):
+		self.sel_redraw_unselect()
 		if num < 0:
 			num = 0
 		if num >= len(self.sel_items):
 			num = len(self.sel_items) - 1
 		self.sel_num = num
+		self.sel_redraw_move()
+		self.select_anim = False
 	def set_ex(self, ex):
 		self.ex = ex
+		for (n,iteminfo) in enumerate(self.sel_items):
+			iteminfo.item_sp.setState(self.ex, n == self.sel_num)
 	def set_auto(self, auto):
 		self.help_sp[1][2].setText(ss_help_t[1][2].format(ss_help_auto_t[1 if auto else 0]))
 		self.auto = auto
@@ -741,6 +786,33 @@ class DDraw():
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
 
+		if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
+			self.sel_redraw_select()
+
+		self.spgroup.update()
+		dirty_rects = self.spgroup.draw(self.screen)
+		# pygame.display.update(dirty_rects)
+		pygame.display.update()
+
+	def sel_redraw_unselect(self):
+		for (n,iteminfo) in enumerate(self.sel_items):
+			iteminfo.item_sp.setState(self.ex, False)
+			(i_w, i_h) = iteminfo.item_sp.size_org
+			i_x = scr_size_org[0] / 2 - i_w / 2
+			i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
+			iteminfo.item_sp.setXY((i_x, i_y), False)
+	def sel_redraw_move(self):
+		for (n,iteminfo) in enumerate(self.sel_items):
+			(i_w, i_h) = iteminfo.item_sp.size_org
+			i_x = scr_size_org[0] / 2 - i_w / 2
+			i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
+			if n < self.sel_num:
+				i_y -= item_selected_span_y
+			if n > self.sel_num:
+				i_y += item_selected_span_y
+			iteminfo.item_sp.setXY((i_x, i_y), True)
+
+	def sel_redraw_select(self):
 		for (n,iteminfo) in enumerate(self.sel_items):
 			iteminfo.item_sp.setState(self.ex, n == self.sel_num)
 			(i_w, i_h) = iteminfo.item_sp.size_org
@@ -750,7 +822,7 @@ class DDraw():
 				i_y -= item_selected_span_y
 			if n > self.sel_num:
 				i_y += item_selected_span_y
-			iteminfo.item_sp.setXY((i_x, i_y))
+			iteminfo.item_sp.setXY((i_x, i_y), False)
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
 
 		savedat = self.sel_items[self.sel_num].dsavedat
@@ -765,12 +837,6 @@ class DDraw():
 		if self.starall_disp > self.starall_num:
 			self.starall_disp = self.starall_num
 		self.starall_star_sp.setText(str(round(self.starall_disp)))
-
-
-		self.spgroup.update()
-		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
 
 	def game_init(self, ex, auto, dmusic, dresult):
 		self.spgroup.empty()
