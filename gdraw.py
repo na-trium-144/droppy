@@ -551,6 +551,8 @@ class DSelItemSprite(pygame.sprite.Sprite):
 		# self.set_xy = s_topleft(x,y)
 		if anim:
 			self.ofs_start = time.time()
+		else:
+			self.old_xy = xy
 		self.set_xy = xy
 		self.updateRect()
 
@@ -719,11 +721,11 @@ class DDraw():
 			{'title':self.font_tl, 'subtitle':self.font_ts, 'level0':self.font_n, 'hard0':self.font_s},
 			{'title':self.font_tl, 'subtitle':self.font_ts, 'level1':self.font_n, 'hard1':self.font_s}
 		]
-		for iteminfo in sel_items:
-			iteminfo.item_sp = DSelItemSprite(self.spgroup, iteminfo, self.item_img, itemfonts)
-			# iteminfo.sp['title'] = DTextSprite(self.font_s, iteminfo.value['title'], Rect(0,0,0,0), -1)
-			iteminfo.item_sp.setScale(self.scr_size, self.scr_scale)
-			# self.spgroup.add(iteminfo.tit1_sp)
+		for item in sel_items:
+			item.item_sp = DSelItemSprite(self.spgroup, item, self.item_img, itemfonts)
+			# item.sp['title'] = DTextSprite(self.font_s, iteminfo.value['title'], Rect(0,0,0,0), -1)
+			item.item_sp.setScale(self.scr_size, self.scr_scale)
+			# self.spgroup.add(item.tit1_sp)
 
 		self.hscore_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), hscore_bg_rect)
 		self.hscore_score_t_sp = DTextSprite(self.spgroup, self.font_s, hscore_score_t, hscore_score_t_rect)
@@ -760,7 +762,7 @@ class DDraw():
 		self.set_ex(ex)
 		self.set_auto(auto)
 
-		self.select_anim = False
+		# self.select_anim = False
 		self.sel_redraw_unselect()
 
 		self.sel_update()
@@ -774,7 +776,7 @@ class DDraw():
 			num = len(self.sel_items) - 1
 		self.sel_num = num
 		self.sel_redraw_move()
-		self.select_anim = False
+		# self.select_anim = False
 	def set_ex(self, ex):
 		self.ex = ex
 		for (n,iteminfo) in enumerate(self.sel_items):
@@ -786,43 +788,37 @@ class DDraw():
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
 
-		if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
-			self.sel_redraw_select()
+		# if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
+		# 	self.sel_redraw_select()
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
 		# pygame.display.update(dirty_rects)
 		pygame.display.update()
 
-	def sel_redraw_unselect(self):
-		for (n,iteminfo) in enumerate(self.sel_items):
-			iteminfo.item_sp.setState(self.ex, False)
-			(i_w, i_h) = iteminfo.item_sp.size_org
-			i_x = scr_size_org[0] / 2 - i_w / 2
-			i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
-			iteminfo.item_sp.setXY((i_x, i_y), False)
-	def sel_redraw_move(self):
-		for (n,iteminfo) in enumerate(self.sel_items):
-			(i_w, i_h) = iteminfo.item_sp.size_org
-			i_x = scr_size_org[0] / 2 - i_w / 2
-			i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
+	def sel_itempos(self, n, item, span=False):
+		(i_w, i_h) = item.item_sp.size_org
+		i_x = scr_size_org[0] / 2 - i_w / 2
+		i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
+		if span:
 			if n < self.sel_num:
 				i_y -= item_selected_span_y
 			if n > self.sel_num:
 				i_y += item_selected_span_y
-			iteminfo.item_sp.setXY((i_x, i_y), True)
+		return (i_x, i_y)
+
+	def sel_redraw_unselect(self):
+		for (n,item) in enumerate(self.sel_items):
+			item.item_sp.setState(self.ex, False)
+			item.item_sp.setXY(self.sel_itempos(n, item, False), False)
+	def sel_redraw_move(self):
+		for (n,item) in enumerate(self.sel_items):
+			item.item_sp.setXY(self.sel_itempos(n, item, False), True)
 
 	def sel_redraw_select(self):
-		for (n,iteminfo) in enumerate(self.sel_items):
-			iteminfo.item_sp.setState(self.ex, n == self.sel_num)
-			(i_w, i_h) = iteminfo.item_sp.size_org
-			i_x = scr_size_org[0] / 2 - i_w / 2
-			i_y = scr_size_org[1] / 2 + item_center_y - i_h / 2 + item_span_y * (n - self.sel_num)
-			if n < self.sel_num:
-				i_y -= item_selected_span_y
-			if n > self.sel_num:
-				i_y += item_selected_span_y
-			iteminfo.item_sp.setXY((i_x, i_y), False)
+		for (n,item) in enumerate(self.sel_items):
+			item.item_sp.setState(self.ex, n == self.sel_num)
+			item.item_sp.setXY(self.sel_itempos(n, item, True), False)
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
 
 		savedat = self.sel_items[self.sel_num].dsavedat
