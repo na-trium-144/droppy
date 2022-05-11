@@ -775,12 +775,14 @@ class DDraw():
 		if num >= len(self.sel_items):
 			num = len(self.sel_items) - 1
 		self.sel_num = num
+		self.sel_update_hscore()
 		self.sel_redraw_move()
 		# self.select_anim = False
 	def set_ex(self, ex):
 		self.ex = ex
 		for (n,iteminfo) in enumerate(self.sel_items):
 			iteminfo.item_sp.setState(self.ex, n == self.sel_num)
+		self.sel_update_hscore()
 	def set_auto(self, auto):
 		self.help_sp[1][2].setText(ss_help_t[1][2].format(ss_help_auto_t[1 if auto else 0]))
 		self.auto = auto
@@ -790,6 +792,11 @@ class DDraw():
 
 		# if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
 		# 	self.sel_redraw_select()
+
+		self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
+		if self.starall_disp > self.starall_num:
+			self.starall_disp = self.starall_num
+		self.starall_star_sp.setText(str(round(self.starall_disp)))
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
@@ -821,6 +828,8 @@ class DDraw():
 			item.item_sp.setXY(self.sel_itempos(n, item, True), False)
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
 
+
+	def sel_update_hscore(self):
 		savedat = self.sel_items[self.sel_num].dsavedat
 		hsc_score = savedat.score[self.ex]
 		hsc_hnt = savedat.hntcount[self.ex]
@@ -829,10 +838,6 @@ class DDraw():
 		self.hscore_star_sp.setText("★"*hsc_star)
 		for i in range(1,5):
 			self.hscore_hnt_sp[i].setText(str(hsc_hnt[i]))
-		self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
-		if self.starall_disp > self.starall_num:
-			self.starall_disp = self.starall_num
-		self.starall_star_sp.setText(str(round(self.starall_disp)))
 
 	def game_init(self, ex, auto, dmusic, dresult):
 		self.spgroup.empty()
