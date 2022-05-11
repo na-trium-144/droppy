@@ -750,6 +750,16 @@ class DDraw():
 		self.starall_num = 0
 		self.starall_disp = 0
 
+		self.sel_info_sp = [
+			self.hscore_bg_sp, self.hscore_score_t_sp, self.hscore_score_sp, self.hscore_star_sp,
+			self.hscore_hnt_t_sp[1], self.hscore_hnt_t_sp[2], self.hscore_hnt_t_sp[3], self.hscore_hnt_t_sp[4],
+			self.hscore_hnt_sp[1], self.hscore_hnt_sp[2], self.hscore_hnt_sp[3], self.hscore_hnt_sp[4],
+			self.starall_bg_sp, self.starall_t1_sp, self.starall_t3_sp, self.starall_t4_sp,
+			self.starall_star_sp,
+		]
+		self.sel_info_visible = True
+		self.sel_set_info_visible(False)
+
 		self.sel_items = sel_items
 		for si in self.sel_items:
 			self.starall_num += si.dsavedat.star[0]
@@ -767,6 +777,17 @@ class DDraw():
 
 		self.sel_update()
 		pygame.display.update()
+
+	def sel_set_info_visible(self, vis):
+		old_vis = self.sel_info_visible
+		if old_vis and not vis:
+			for sp in self.sel_info_sp:
+				self.spgroup.remove(sp)
+		if not old_vis and vis:
+			for sp in self.sel_info_sp:
+				self.spgroup.add(sp)
+				sp.setScale(self.scr_size, self.scr_scale)
+		self.sel_info_visible = vis
 
 	def set_sel_num(self, num):
 		self.sel_redraw_unselect()
@@ -818,6 +839,8 @@ class DDraw():
 		for (n,item) in enumerate(self.sel_items):
 			item.item_sp.setState(self.ex, False)
 			item.item_sp.setXY(self.sel_itempos(n, item, False), False)
+		self.sel_set_info_visible(False)
+
 	def sel_redraw_move(self):
 		for (n,item) in enumerate(self.sel_items):
 			item.item_sp.setXY(self.sel_itempos(n, item, False), True)
@@ -827,6 +850,7 @@ class DDraw():
 			item.item_sp.setState(self.ex, n == self.sel_num)
 			item.item_sp.setXY(self.sel_itempos(n, item, True), False)
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
+		self.sel_set_info_visible(True)
 
 
 	def sel_update_hscore(self):
