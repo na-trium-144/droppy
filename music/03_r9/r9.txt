@@ -1,0 +1,55 @@
+#droppy
+#title: Regain-2-Root
+//#subtitle: na trium
+#music: 220416.mp3
+#volume: 50
+#bpm: 150
+#offset: 0
+#level: 2,8
+//#demo:
+
+#start
+
+#end
+
+#start
+@a:1,Kick Batista 1.wav,50,100
+@b:6,Rim GravelTrap 2.wav,30,80
+@c:4,Snare Amsterdam 2.wav,30,50
+@d:7,OpenHH Bangarang.wav,25,30
+
+a...a...a.a.d.a. a...a...a.a.d.a.
+a...a...a.b.d.a. a...a...a.b.d.a.
+A...A...a.aad.a. A...A...a.aad.a.
+A...A...a.bad.a. A...A...a.bad.a.
+
+a.b.a.b.a.b.d.a. a.a.b.a.a.bad.a.
+a.b.a.b.a.b.d.a. a.a.b.a.a.bad.a.
+b.a.b.a.b.a.d.a. a.a.b.a.a.bad.a.
+b.a.b.a.b.a.d.a. a.a.b.a.a.bad.a.
+A.b.A.b.A.b.d.a. A.a.b.a.a.bad.a.
+A.b.A.b.A.b.d.a. A.a.b.a.a.bad.a.
+B.a.B.a.B.a.d.a. A.a.b.a.a.bad.a.
+B.a.B.a.B.a.d.a. A.a.b.a.a.bad.a.
+
+A.b.d.A...a...a. A.b.b.A...a.b...
+A.b.d.A...a...a. A.b.b.A...a.b...
+A.b.d.A...a.d.a. A.b.b.A...a.d...
+A.b.d.A...a.d.a. A.b.b.A...a.d...
+A.a.B.a...a.b... A.a.B.a...a.b...
+A.a.B.d...a.b.b. A.a.B.d...a.b.b.
+A.a.B.a...a.d.a. A.a.B.a...a.d.a.
+A.a.B.d...a.d.b. A.a.B.a.a.b.aad.
+
+A.bad.b.A.b.aad. A.bba.d.a.dabad.
+A.bad.b.A.b.aad. A.aab.d.b.dabad.
+A.bad.A.b.b.aad. A.bba.d.a.daa.b.
+A.bad.A.b.b.aad. A.aab.d.A.d.A.d.
+
+A.bad.b.A.b.aad. A.bba.d.a.dabad.
+A.bad.b.A.b.aad. A.aab.d.b.dabad.
+A.bad.A.b.b.aad. A.bba.d.a.daa.b.
+A.bad.A.b.b.aad. A.aab.d.A.d.A.d.
+
+A
+#end
