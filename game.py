@@ -151,13 +151,12 @@ class DGame():
 							notesp.stat -= 1
 
 						if (abs(diff_cnt) <= 2): #hnt1 good
-							#effect
+							self.ddraw.game_create_effect(notesp, 0)
 							self.dresult.hit(1, 1)
 						elif (abs(diff_cnt) <= 4): #hnt2 ok
-							#effect
+							self.ddraw.game_create_effect(notesp, 1)
 							self.dresult.hit(2, 1)
 						else: #hnt3 bad
-							#effect
 							self.dresult.hit(3, 1)
 			if (hitkey > 0):
 				#self.dmusic.se_default.play()
