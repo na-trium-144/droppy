@@ -31,12 +31,19 @@ class DSelect():
 		self.bgm_stop_cnt = 0
 		self.demo_end = None
 		self.bgm_start_now = False
+		redraw_select = False
 
 		while (1):
 			self.clock.tick(60)
 
 			if sel_cnt == 20:
 				self.bgm_start_now = True
+
+			anim_ready = self.sel_items[self.sel_num].item_sp.anim_start is None and self.sel_items[0].item_sp.ofs_start is None
+
+			if sel_cnt >= 15 and anim_ready and not redraw_select:
+				self.ddraw.sel_redraw_select()
+				redraw_select = True
 
 			for event in pygame.event.get():
 				if event.type == VIDEORESIZE:
@@ -56,21 +63,23 @@ class DSelect():
 						while wait < l:
 							wait += self.clock.tick(0) / 1000
 						return
-					elif event.key in [K_UP, K_w] and self.sel_num > 0:
+					elif event.key in [K_UP, K_w] and self.sel_num > 0 and anim_ready:
 						self.sel_num -= 1
 						self.ddraw.set_sel_num(self.sel_num)
 						sel_cnt = 0
 						self.se['selmusic'].play()
 						self.bgm_stop()
 						self.bgm_start_now = True
-					elif event.key in [K_DOWN, K_s] and self.sel_num < len(self.sel_items) - 1:
+						redraw_select = False
+					elif event.key in [K_DOWN, K_s] and self.sel_num < len(self.sel_items) - 1 and anim_ready:
 						self.sel_num += 1
 						self.ddraw.set_sel_num(self.sel_num)
 						sel_cnt = 0
 						self.se['selmusic'].play()
 						self.bgm_stop()
 						self.bgm_start_now = True
-					elif event.key in [K_LEFT, K_a, K_RIGHT, K_d]:
+						redraw_select = False
+					elif event.key in [K_LEFT, K_a, K_RIGHT, K_d] and anim_ready:
 						self.ex = 1 - self.ex
 						self.ddraw.set_ex(self.ex)
 						self.se['selhard'].play()
@@ -81,7 +90,7 @@ class DSelect():
 							self.se['auto1'].play()
 						else:
 							self.se['auto0'].play()
-					elif event.key in [K_SPACE, K_RETURN]:
+					elif event.key in [K_SPACE, K_RETURN] and anim_ready:
 						self.selected_item = self.sel_items[self.sel_num]
 						self.bgm_stop()
 						self.se['start'].play()
