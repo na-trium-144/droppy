@@ -269,6 +269,7 @@ class DNoteSprite(pygame.sprite.Sprite):
 					cy + (hx - cx1) * math.sin(math.radians(-rot)) + (hy - cy1) * math.cos(math.radians(-rot)))
 		self.rect.org.x -= hx
 		self.rect.org.y -= hy
+		self.rect.org.size = self.image.get_size()
 
 		self.rect.setScale()
 
@@ -571,29 +572,59 @@ class DSelItemSprite(pygame.sprite.Sprite):
 			self.updateRect()
 
 class DImageSprite(pygame.sprite.Sprite):
-	def __init__(self, spgroup, image, rect):
+	def __init__(self, spgroup, image, rect, large=False):
 		pygame.sprite.Sprite.__init__(self)
 		spgroup.add(self)
-		self.image_org = image
 		self.scr_scale = 1
 		self.scr_size = scr_size_org
-		self.setRect(rect)
-		self.updateImg()
+		self.large_start = None
+		self.image_org = None
+		self.image_notlarge_org = None
+		self.setRect(rect, large)
+		self.setImage(image, large)
 
 	def setScale(self, scr_size, scale):
 		self.scr_size = scr_size
 		self.scr_scale = scale
 		self.updateImg()
 		self.rect.setScale(self.scr_size, self.scr_scale)
-	def setImage(self, image):
+	def setImage(self, image, large=False):
 		self.image_org = image
+		if large:
+			self.large_start = time.time()
+			self.image_notlarge_org = image
+			image_size = (self.image_notlarge_org.get_width() * large_scale, self.image_notlarge_org.get_height() * large_scale)
 		self.updateImg()
-	def setRect(self, rect):
-		self.rect = rect
+
+	def setRect(self, rect, large=False):
+		self.rect = AlignedRect(rect.align, rect.org.topleft, rect.org.size)
+		if large:
+			self.rect.org = Rect((rect.org.x - rect.org.width / 2 * (large_scale - 1), rect.org.y - rect.org.height / 2 * (large_scale - 1)), (rect.org.width * large_scale, rect.org.height * large_scale))
 		self.rect.setScale(self.scr_size, self.scr_scale)
 
 	def updateImg(self):
-		self.image = pygame.transform.smoothscale(self.image_org, [self.scr_scale * self.image_org.get_size()[i] for i in range(2)])
+		if self.image_org is not None:
+			self.image = pygame.transform.smoothscale(self.image_org, [self.scr_scale * self.image_org.get_size()[i] for i in range(2)])
+		if self.image_notlarge_org is not None:
+			self.image_notlarge = pygame.transform.smoothscale(self.image_notlarge_org, [self.scr_scale * self.image_notlarge_org.get_size()[i] for i in range(2)])
+
+	def update(self):
+		if self.large_start is not None:
+			large_ofs = (time.time() - self.large_start) / large_t
+			if large_ofs > 1:
+				self.kill()
+				return
+				# large_ofs = 1
+				# self.large_start = None
+			now_scale = 1 + large_ofs * (large_scale - 1)
+			scaled_size = (now_scale * self.image_notlarge.get_width(), now_scale * self.image_notlarge.get_height())
+			max_size = (large_scale * self.image_notlarge.get_width(), large_scale * self.image_notlarge.get_height())
+			self.image = pygame.Surface(max_size, pygame.SRCALPHA)
+			scaled_image = pygame.transform.smoothscale(self.image_notlarge, scaled_size)
+			mask_image = pygame.Surface(max_size, pygame.SRCALPHA)
+			mask_image.fill((0, 0, 0, large_ofs * 255))
+			self.image.blit(scaled_image, (self.image.get_width() / 2 - scaled_image.get_width() / 2, self.image.get_height() / 2 - scaled_image.get_height() / 2))
+			self.image.blit(mask_image, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
 
 class DSquareSprite(pygame.sprite.Sprite):
 	def __init__(self, spgroup, color, rect):
@@ -658,6 +689,18 @@ class DDraw():
 			for c in range(note_col_count)
 		]
 			#note_img[col][scale]
+
+		self.effect_img_org = [
+			pygame.image.load(os.path.join(res_dir, "notec{}.png".format(c))).convert_alpha()
+			for c in range(2)
+		]
+		self.effect_img = [
+			{s:
+				pygame.transform.smoothscale(self.effect_img_org[c], note_size[s])
+				for s in range(1,3)
+			}
+			for c in range(2)
+		]
 
 		self.item_img = [
 				pygame.transform.smoothscale(
@@ -961,6 +1004,9 @@ class DDraw():
 	def game_bg(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
+
+	def game_create_effect(self, notesp, h):
+		effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_img[h][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
 
 	def game_update(self):
 		self.game_bg()
