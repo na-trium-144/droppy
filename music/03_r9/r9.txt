@@ -2,7 +2,7 @@
 #title: Regain-2-Root <リズミカル☆チェリー>
 //#subtitle: na trium
 #music: 220416.mp3
-#volume: 50
+#volume: 60
 #bpm: 150
 #offset: 0
 #level: 2,8
@@ -23,33 +23,33 @@ a...a...a.b.d.a. a...a...a.b.d.a.
 A...A...a.aad.a. A...A...a.aad.a.
 A...A...a.bad.a. A...A...a.bad.a.
 
-a.b.a.b.a.b.d.a. a.a.b.a.a.bad.a.
-a.b.a.b.a.b.d.a. a.a.b.a.a.bad.a.
-b.a.b.a.b.a.d.a. a.a.b.a.a.bad.a.
-b.a.b.a.b.a.d.a. a.a.b.a.a.bad.a.
-A.b.A.b.A.b.d.a. A.a.b.a.a.bad.a.
-A.b.A.b.A.b.d.a. A.a.b.a.a.bad.a.
-B.a.B.a.B.a.d.a. A.a.b.a.a.bad.a.
-B.a.B.a.B.a.d.a. A.a.b.a.a.bad.a.
+A.b.a.b.a.b.d.a. A.a.b.a.a.bad.a.
+A.b.a.b.a.b.d.a. A.a.b.a.a.bad.a.
+B.a.b.a.b.a.d.a. A.a.b.a.a.bad.a.
+B.a.b.a.b.a.d.a. A.a.b.a.a.bad.a.
+A.b.A.b.A.b.d.a. A.a.B.a.a.bad.a.
+A.b.A.b.A.b.d.a. A.a.B.a.a.bad.a.
+B.a.B.a.B.a.d.a. A.a.B.a.a.bad.a.
+B.a.B.a.B.a.d.a. A.a.B.a.a.bad.a.
 
-A.b.d.A...a...a. A.b.b.A...a.b...
-A.b.d.A...a...a. A.b.b.A...a.b...
-A.b.d.A...a.d.a. A.b.b.A...a.d...
-A.b.d.A...a.d.a. A.b.b.A...a.d...
-A.a.B.a...a.b... A.a.B.a...a.b...
-A.a.B.d...a.b.b. A.a.B.d...a.b.b.
-A.a.B.a...a.d.a. A.a.B.a...a.d.a.
-A.a.B.d...a.d.b. A.a.B.a.a.b.aad.
+A.b.d.A...aab.a. A.b.b.A...aab...
+A.b.d.A...aab.b. A.b.b.A...aab...
+A.b.d.A...aad.a. A.b.b.A...aad...
+A.b.d.A...aad.b. A.b.b.A...aad...
+A.a.B.a...aab.a. A.a.B.a...aab...
+A.a.B.d...aab.b. A.a.B.d...aab...
+A.a.B.a...aad.a. A.a.B.a...aad.a.
+A.a.B.d...aad.b. A.a.B.a.A.b.aad.
 
-A.bad.b.A.b.aad. A.bba.d.a.dabad.
-A.bad.b.A.b.aad. A.aab.d.b.dabad.
-A.bad.A.b.b.aad. A.bba.d.a.daa.b.
-A.bad.A.b.b.aad. A.aab.d.A.d.A.d.
+A.bad.b.A.b.a.d. A.bba.d.a.da.ad.
+A.bad.b.A.b.a.d. A.aab.d.b.da.ad.
+A.bad.A.b.b.a.d. A.bba.d.a.dab.b.
+A.bad.A.b.b.a.d. A.aab.d.A.d.A.d.
 
-A.bad.b.A.b.aad. A.bba.d.a.dabad.
-A.bad.b.A.b.aad. A.aab.d.b.dabad.
-A.bad.A.b.b.aad. A.bba.d.a.daa.b.
-A.bad.A.b.b.aad. A.aab.d.A.d.A.d.
+A.bad.b.A.b.a.d. A.bba.d.a.da.ad.
+A.bad.b.A.b.a.d. A.aab.d.b.da.ad.
+A.bad.A.b.b.a.d. A.bba.d.a.dab.b.
+A.bad.A.b.b.a.d. A.aab.d.A.d.A.d.
 
 A
 #end
