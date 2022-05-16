@@ -941,7 +941,7 @@ class DDraw():
 
 		DImageSprite(self.spgroup, pygame.transform.smoothscale(self.logo_big_img_org, logo_s_rect.org.size), logo_s_rect)
 
-		DTextSprite(self.spgroup, self.font_tl, self.title, title_rect, 1)
+		DTextSprite(self.spgroup, (self.font_tl, self.font_ts), self.title, title_rect, 1)
 		DTextSprite(self.spgroup, self.font_ts, self.subtitle, subtitle_rect, 1)
 		DTextSprite(self.spgroup, self.font_n, str(self.level), hard_rect, 1)
 		DTextSprite(self.spgroup, self.font_s, hard_t[self.ex], hard_t_rect, 1)
@@ -1059,6 +1059,7 @@ class DDraw():
 
 	def game_create_effect(self, notesp, h):
 		effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_img[h][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
+		effect_sp.setScale(self.scr_size, self.scr_scale)
 
 	def game_update(self):
 		self.game_bg()
