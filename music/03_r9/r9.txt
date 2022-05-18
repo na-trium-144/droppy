@@ -15,22 +15,45 @@
 #start
 @a:1,Kick Batista 1.wav,50,100
 @b:6,Rim GravelTrap 2.wav,30,80
-@c:4,Snare Amsterdam 2.wav,30,50
-@d:7,OpenHH Bangarang.wav,25,30
+@d:7,OpenHH Bangarang.wav,25,50
 
-a...a...a.a.d.a. a...a...a.a.d.a.
-a...a...a.b.d.a. a...a...a.b.d.a.
-A...A...a.aad.a. A...A...a.aad.a.
-A...A...a.bad.a. A...A...a.bad.a.
+@e:5,Kick Batista 1.wav,50,30
+e...e...a.a.d.a.
+@e:,,50
+e...e...a.a.d.a.
+@e:,,,10
+e...e...a.b.d.a.
+@e:,,,0
+e...e...a.b.d.a.
+@e:,,,30
+E...E...a.aad.a.
+@e:,,,50
+E...E...a.aad.a.
+@e:,,,40
+E...E...a.bad.a.
+@e:,,,20
+E...E...a.bad.a.
 
-A.b.a.b.a.b.d.a. A.a.b.a.a.bad.a.
-A.b.a.b.a.b.d.a. A.a.b.a.a.bad.a.
-B.a.b.a.b.a.d.a. A.a.b.a.a.bad.a.
-B.a.b.a.b.a.d.a. A.a.b.a.a.bad.a.
-A.b.A.b.A.b.d.a. A.a.B.a.a.bad.a.
-A.b.A.b.A.b.d.a. A.a.B.a.a.bad.a.
-B.a.B.a.B.a.d.a. A.a.B.a.a.bad.a.
-B.a.B.a.B.a.d.a. A.a.B.a.a.bad.a.
+@e:1,Kick Batista 1.wav,50,0
+@f:1,Kick Batista 1.wav,50,1
+@g:1,Kick Batista 1.wav,50,2
+E.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
+E.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
+@e:6,Rim GravelTrap 2.wav,30,
+@f:6,Rim GravelTrap 2.wav,30,
+@g:6,Rim GravelTrap 2.wav,30,
+G.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
+G.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
+@e:1,Kick Batista 1.wav,50,
+@f:1,Kick Batista 1.wav,50,
+@g:1,Kick Batista 1.wav,50,
+E.b.F.b.G.b.d.a. A.a.B.a.a.bad.a.
+E.b.F.b.G.b.d.a. A.a.B.a.a.bad.a.
+@e:6,Rim GravelTrap 2.wav,30,
+@f:6,Rim GravelTrap 2.wav,30,
+@g:6,Rim GravelTrap 2.wav,30,
+G.a.F.a.E.a.d.a. A.a.B.a.a.bad.a.
+G.a.F.a.E.a.d.a. A.a.B.a.a.bad.a.
 
 A.b.d.A...aab.a. A.b.b.A...aab...
 A.b.d.A...aab.b. A.b.b.A...aab...
