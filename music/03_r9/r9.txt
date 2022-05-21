@@ -13,11 +13,11 @@
 #end
 
 #start
-@a:1,Kick Batista 1.wav,50,100
-@b:6,Rim GravelTrap 2.wav,30,80
-@d:7,OpenHH Bangarang.wav,25,50
+@a:1,b.wav,80,100
+@b:6,a.wav,60,80
+@d:8,sh.wav,40,50
 
-@e:5,Kick Batista 1.wav,50,30
+@e:5,t.wav,50,30
 e...e...a.a.d.a.
 @e:,,50
 e...e...a.a.d.a.
@@ -34,45 +34,37 @@ E...E...a.bad.a.
 @e:,,,20
 E...E...a.bad.a.
 
-@e:1,Kick Batista 1.wav,50,0
-@f:1,Kick Batista 1.wav,50,1
-@g:1,Kick Batista 1.wav,50,2
-E.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
-E.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
-@e:6,Rim GravelTrap 2.wav,30,
-@f:6,Rim GravelTrap 2.wav,30,
-@g:6,Rim GravelTrap 2.wav,30,
-G.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
-G.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
-@e:1,Kick Batista 1.wav,50,
-@f:1,Kick Batista 1.wav,50,
-@g:1,Kick Batista 1.wav,50,
+@e:5,t.wav,50,0
+@f:5,t.wav,50,10
+@g:5,t.wav,50,20
+@h:5,t.wav,50,30
+e.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
+e.b.f.b.g.b.d.a. A.a.b.a.a.bad.a.
+g.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
+g.a.f.a.e.a.d.a. A.a.b.a.a.bad.a.
 E.b.F.b.G.b.d.a. A.a.B.a.a.bad.a.
 E.b.F.b.G.b.d.a. A.a.B.a.a.bad.a.
-@e:6,Rim GravelTrap 2.wav,30,
-@f:6,Rim GravelTrap 2.wav,30,
-@g:6,Rim GravelTrap 2.wav,30,
 G.a.F.a.E.a.d.a. A.a.B.a.a.bad.a.
 G.a.F.a.E.a.d.a. A.a.B.a.a.bad.a.
 
-A.b.d.A...aab.a. A.b.b.A...aab...
-A.b.d.A...aab.b. A.b.b.A...aab...
-A.b.d.A...aad.a. A.b.b.A...aad...
-A.b.d.A...aad.b. A.b.b.A...aad...
-A.a.B.a...aab.a. A.a.B.a...aab...
-A.a.B.d...aab.b. A.a.B.d...aab...
-A.a.B.a...aad.a. A.a.B.a...aad.a.
-A.a.B.d...aad.b. A.a.B.a.A.b.aad.
+A.e.e.A...aab.a. A.b.d.A...aab...
+A.f.f.A...aab.b. A.b.d.A...aab...
+A.g.g.A...aad.a. A.b.d.A...aad...
+A.h.h.A...aad.b. A.b.d.A...aad...
+A.e.B.e...aab.a. A.a.B.a...aab...
+A.f.B.f...aab.b. A.a.B.d...aab...
+A.g.B.g...aad.a. A.a.B.a...aad.a.
+A.h.B.h...aad.b. A.a.B.a.A.b.efd.
 
 A.bad.b.A.b.a.d. A.bba.d.a.da.ad.
 A.bad.b.A.b.a.d. A.aab.d.b.da.ad.
 A.bad.A.b.b.a.d. A.bba.d.a.dab.b.
-A.bad.A.b.b.a.d. A.aab.d.A.d.A.d.
+A.bad.A.b.b.a.d. A.aab.d.E.d.H.d.
 
 A.bad.b.A.b.a.d. A.bba.d.a.da.ad.
 A.bad.b.A.b.a.d. A.aab.d.b.da.ad.
 A.bad.A.b.b.a.d. A.bba.d.a.dab.b.
-A.bad.A.b.b.a.d. A.aab.d.A.d.A.d.
+A.bad.A.b.b.a.d. A.aab.d.E.d.H.d.
 
-A
+F
 #end
