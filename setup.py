@@ -44,6 +44,7 @@ setup(
 			script="main.py",
 			base=base,
 			target_name=title,
+			copyright="na-trium-144",
 			icon="res/icon.ico"
 		)
 	],
