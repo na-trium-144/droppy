@@ -6,10 +6,35 @@
 #bpm: 150
 #offset: 0
 #level: 2,8
-//#demo:
+#demo: 64,
 
 #start
+@a:1,b.wav,80,100
+@b:1,b.wav,80,30
+@c:1,b.wav,80,40
+@d:8,sh.wav,30,70
+@e:5,t.wav,50,30
+@f:5,t.wav,50,40
+@g:5,t.wav,50,50
 
+#l4
+a...a... d...d...
+A..gA..f D..aD...
+e.f.a.d. f.e.a.d.
+b.c.g.d. c.b.g.dd
+E.F.a.da E.F.a.da
+B.C.g.da C.B.g.dd
+
+B..eC..eA..dA..d
+E..aF..aG..dA...
+A.#l8.e..#l4 A..d A.#l8.f..#l4 A..d
+E.#l8.b..#l4 E..d E.#l8.c..#l4 A.ef
+
+B.a.d.efC.a.d.fe
+B.d.A..dC.d.a.ge
+B.a.d.efC.a.d.fe
+B.d.A..dC.d.a.ge
+A
 #end
 
 #start

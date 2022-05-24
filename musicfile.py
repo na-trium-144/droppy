@@ -85,7 +85,15 @@ class DMusicFile():
 					# self.meta['level_easy'] = l[7:l.find(",")]
 					# self.meta['level_hard'] = l[l.find(",")+1:]
 				elif ll.startswith("#demo:"):
-					self.demo_range = [float(s) for s in l[6:].split(",")]
+					self.demo_range = [s for s in l[6:].split(",")]
+					try:
+						self.demo_range[0] = float(self.demo_range[0])
+					except:
+						self.demo_range[0] = 0
+					try:
+						self.demo_range[1] = float(self.demo_range[1])
+					except:
+						self.demo_range = self.demo_range[:1]
 				elif l.startswith("#") and ":" in l:
 					self.meta[l[1:l.find(":")]] = l[l.find(":")+1:].strip()
 		self.dsavedat = DSaveDat(usr_dir, self)
