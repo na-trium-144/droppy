@@ -24,10 +24,10 @@
 //@アルファベット:色番号,wavファイル,音符スタート位置0〜100(0=真上から、100=右端から)
 //色の一覧はresフォルダを見て
 //wavファイルはtxtファイルと同じフォルダに置く
-@a:2,Kick Amsterdam 1.wav,40,100
-@b:8,Clap AllOfMe.wav,40,60
-@c:6,Snare Bangarang 2.wav,40,30
-@d:1,OpenHH Batista.wav,30,0
+@a:2,k.wav,40,100
+@b:8,cl.wav,40,60
+@c:6,s1.wav,40,30
+@d:1,oh.wav,30,0
 
 // a-z : 通常音符
 // A-Z : 大音符
@@ -73,11 +73,11 @@ A
 
 //むずい譜面
 #start
-@a:2,Kick Amsterdam 1.wav,40,100
-@b:8,Clap AllOfMe.wav,40,60
-@c:6,Snare Bangarang 2.wav,40,30
-@d:1,OpenHH Batista.wav,30,0
-@e:7,Snare CheapLaughs 1.wav,30,50
+@a:2,k.wav,40,100
+@b:8,cl.wav,40,60
+@c:6,s1.wav,40,30
+@d:1,oh.wav,30,0
+@e:7,s2.wav,30,50
 
 a...e.a.a.a.e...a...e.a.a.a.e...
 a...e.a.a.a.e...a...e.a.a.b.d..c

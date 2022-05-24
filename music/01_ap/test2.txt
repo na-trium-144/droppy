@@ -12,10 +12,10 @@
 
 //@アルファベット:色番号,wavファイル,音量,音符スタート位置0〜100(0=真上から、100=右端から)
 //色の一覧はimgフォルダを見て
-@a:1,Kick Batista 1.wav,50,100
-//@b:6,Rim GravelTrap 2.wav,30,80
-@c:4,Snare Amsterdam 2.wav,30,50
-@d:7,OpenHH Bangarang.wav,25,30
+@a:1,k.wav,50,100
+//@b:6,r.wav,30,80
+@c:4,s.wav,30,50
+@d:7,oh.wav,25,30
 
 
 #l8
@@ -54,31 +54,31 @@ A.a. c.c. D
 #end
 
 #start
-@a:1,Kick Batista 1.wav,50,100
-//@b:6,Rim GravelTrap 2.wav,30,80
-@c:4,Snare Amsterdam 2.wav,30,50
-@d:7,OpenHH Bangarang.wav,25,30
-@z:1,Kick Batista 1.wav,30,0
+@a:1,k.wav,50,100
+//@b:6,r.wav,30,80
+@c:4,s.wav,30,50
+@d:7,oh.wav,25,30
+@z:1,k.wav,30,0
 
 #l8
-@p:8,ClosedHH Alessya DS.wav,50,10
-@q:8,ClosedHH Alessya DS.wav,50,20
-@r:8,ClosedHH Alessya DS.wav,50,30
-@s:8,ClosedHH Alessya DS.wav,50,40
-@t:8,ClosedHH Alessya DS.wav,50,50
-@u:8,ClosedHH Alessya DS.wav,50,60
-@v:8,ClosedHH Alessya DS.wav,50,70
-@w:8,ClosedHH Alessya DS.wav,50,80
+@p:8,ch.wav,50,10
+@q:8,ch.wav,50,20
+@r:8,ch.wav,50,30
+@s:8,ch.wav,50,40
+@t:8,ch.wav,50,50
+@u:8,ch.wav,50,60
+@v:8,ch.wav,50,70
+@w:8,ch.wav,50,80
 pqrstuvw
-@b:6,Rim GravelTrap 2.wav,30,60
+@b:6,r.wav,30,60
 b.
-@b:6,Rim GravelTrap 2.wav,30,40
+@b:6,r.wav,30,40
 b.
-@b:6,Rim GravelTrap 2.wav,30,20
+@b:6,r.wav,30,20
 b.
-@b:6,Rim GravelTrap 2.wav,30,0
+@b:6,r.wav,30,0
 b.
-@b:6,Rim GravelTrap 2.wav,30,80
+@b:6,r.wav,30,80
 
 #l12
 z..a..z..a.d z..a..z..a.d z..a..z..a.d z..a..z..a.d

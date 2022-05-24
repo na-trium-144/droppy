@@ -14,8 +14,8 @@
 
 #start
 @a:1,b.wav,80,100
-@b:6,a.wav,60,80
-@d:8,sh.wav,40,50
+@b:6,a.wav,25,80
+@d:8,sh.wav,30,50
 
 @e:5,t.wav,50,30
 e...e...a.a.d.a.
