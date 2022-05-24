@@ -4,7 +4,7 @@ import os
 import time
 import math
 
-caption = "Droppy ver1.0"
+caption = "Droppy ver1.1"
 
 scr_size_debug = None #(640, 480)
 
@@ -62,7 +62,8 @@ title_rect = AlignedRect(1, (200,530), (1040,60))
 subtitle_rect = AlignedRect(1, (200,600), (1040,30))
 lv_t = "レベル:"
 hard_t_rect = AlignedRect(1, (200,660), (1040-70,30))
-hard_t = ("かんたん  " + lv_t, "むずい  " + lv_t)
+hard_name_t = ("かんたん", "むずい")
+hard_t = [f"{hard_name_t[h]}  {lv_t}" for h in range(2)]
 hard_rect = AlignedRect(1, (1240-70,630), (70,60))
 auto_rect = AlignedRect(1, (200,490), (1040,40))
 auto_t = "[オートプレイ]"
@@ -748,6 +749,8 @@ class DDraw():
 			sp.setScale(self.scr_size, self.scr_scale)
 
 	def tit_init(self):
+		pygame.display.set_caption(caption)
+
 		self.spgroup.empty()
 		self.tit_cnt = 0
 
@@ -773,6 +776,8 @@ class DDraw():
 		pygame.display.update()
 
 	def sel_init(self, sel_items, sel_num, ex, auto):
+		pygame.display.set_caption(caption)
+
 		self.spgroup.empty()
 
 		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
@@ -930,6 +935,7 @@ class DDraw():
 			self.hscore_hnt_sp[i].setText(str(hsc_hnt[i]))
 
 	def game_init(self, ex, auto, dmusic, dresult):
+
 		self.spgroup.empty()
 
 		self.title = dmusic.title
@@ -938,6 +944,14 @@ class DDraw():
 		self.level = dmusic.level
 		self.dresult = dresult
 		self.auto = auto
+
+		short_title = self.title
+		if short_title.startswith("<"):
+			short_title = short_title[short_title.find(">")+1:].strip()
+		if short_title.endswith(">"):
+			short_title = short_title[:short_title.find("<")].strip()
+
+		pygame.display.set_caption(f"{short_title} [{hard_name_t[self.ex]} {self.level}] - {caption}")
 
 		DImageSprite(self.spgroup, pygame.transform.smoothscale(self.logo_big_img_org, logo_s_rect.org.size), logo_s_rect)
 

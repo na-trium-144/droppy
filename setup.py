@@ -3,7 +3,7 @@ import sys
 from cx_Freeze import setup, Executable
 
 title = "Droppy"
-ver = "1.0"
+ver = "1.1"
 title_ver = f"{title}_{ver}"
 
 # Dependencies are automatically detected, but it might need fine tuning.
@@ -39,5 +39,12 @@ setup(
 	version=ver,
 	description=title,
 	options=options,
-	executables=[Executable("main.py", base=base, icon="res/icon.ico")],
+	executables=[
+		Executable(
+			script="main.py",
+			base=base,
+			target_name=title,
+			icon="res/icon.ico"
+		)
+	],
 )
