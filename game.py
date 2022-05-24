@@ -89,6 +89,8 @@ class DGame():
 			self.main_cnt += 1
 			while timer_cnt < self.main_cnt:
 				timer_cnt += self.clock.tick(0) / 1000 * game_fps
+			while timer_cnt - self.main_cnt > 1:
+				self.main_cnt += 1
 
 			if self.dmusic.reached_end:
 				self.end()

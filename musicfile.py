@@ -85,7 +85,15 @@ class DMusicFile():
 					# self.meta['level_easy'] = l[7:l.find(",")]
 					# self.meta['level_hard'] = l[l.find(",")+1:]
 				elif ll.startswith("#demo:"):
-					self.demo_range = [float(s) for s in l[6:].split(",")]
+					self.demo_range = [s for s in l[6:].split(",")]
+					try:
+						self.demo_range[0] = float(self.demo_range[0])
+					except:
+						self.demo_range[0] = 0
+					try:
+						self.demo_range[1] = float(self.demo_range[1])
+					except:
+						self.demo_range = self.demo_range[:1]
 				elif l.startswith("#") and ":" in l:
 					self.meta[l[1:l.find(":")]] = l[l.find(":")+1:].strip()
 		self.dsavedat = DSaveDat(usr_dir, self)
@@ -126,12 +134,25 @@ class DMusicFile():
 					# color, wav, xp
 					param = l[3:].split(",")
 					param = [p.strip() for p in param]
-					param[0] = int(param[0]) #col
-					param[1] = os.path.join(os.path.dirname(self.filename), param[1])
-					param[2] = float(param[2]) #vol
-					param[3] = float(param[3]) #xp
-					self.notedef[ord(l.lower()[1]) - ord("a")] = DNoteInfo(param[0], param[1], param[2], param[3])
-					print(f"set @{l.lower()[1]} {self.notedef[ord(l.lower()[1]) - ord('a')]}")
+					chr = ord(l.lower()[1]) - ord("a")
+					if len(param) < 1 or param[0] == "":
+						col = self.notedef[chr].col
+					else:
+						col = int(param[0])
+					if len(param) < 2 or param[1] == "":
+						wav = self.notedef[chr].wav
+					else:
+						wav = os.path.join(os.path.dirname(self.filename), param[1])
+					if len(param) < 3 or param[2] == "":
+						vol = self.notedef[chr].vol
+					else:
+						vol = float(param[2])
+					if len(param) < 4 or param[3] == "":
+						xp = self.notedef[chr].xp
+					else:
+						xp = float(param[3])
+					self.notedef[chr] = DNoteInfo(col, wav, vol, xp)
+					print(f"set @{chr} {self.notedef[chr]}")
 				else:
 					i = 0
 					while i < len(l):

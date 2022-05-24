@@ -273,6 +273,28 @@ class DNoteSprite(pygame.sprite.Sprite):
 
 		self.rect.setScale()
 
+def fontsRender(fonts, text, color):
+	text_1 = ""
+	text_3 = ""
+	if text.startswith("<"):
+		text_1 = text[1:text.find(">")]
+		text = text[text.find(">")+1:]
+	if text.endswith(">"):
+		text_3 = text[text.rfind("<")+1:-1]
+		text = text[:text.rfind("<")]
+	if type(fonts) == tuple:
+		(font_l, font_s) = fonts
+	else:
+		return fonts.render(text, True, color)
+	img_text_1 = font_s.render(text_1, True, color)
+	img_text_2 = font_l.render(text, True, color)
+	img_text_3 = font_s.render(text_3, True, color)
+	img = pygame.Surface((img_text_1.get_width() + img_text_2.get_width() + img_text_3.get_width(), img_text_2.get_height()), pygame.SRCALPHA)
+	img.blit(img_text_1, (0, img_text_2.get_height()*0.9 - img_text_2.get_height()))
+	img.blit(img_text_2, (img_text_1.get_width(), 0))
+	img.blit(img_text_3, (img_text_1.get_width() + img_text_2.get_width(), img_text_2.get_height()*0.9 - img_text_3.get_height()))
+	return img
+
 #テキストのスプライト
 #初期化で描画、setTextで再描画
 #setText時にanim=Trueでスコアなどのアニメーション
@@ -357,17 +379,17 @@ class DTextSprite(pygame.sprite.Sprite):
 					else:
 						text_anim += new_c
 						char_changed = True
-			self.image_static_org = self.set_font.render(text_static, True, color)
-			self.image_anim_org = self.set_font.render(text_anim, True, color)
+			self.image_static_org = fontsRender(self.set_font, text_static, color)
+			self.image_anim_org = fontsRender(self.set_font, text_anim, color)
 			self.rect_static = Rect((0, anim_y), self.image_static_org.get_size())
 			#動く側文字の座標(image_static_org左上からの相対座標)
 			self.rect_anim = Rect((self.rect_static.width, 0), (self.image_anim_org.get_rect().width, self.image_anim_org.get_rect().height + anim_y))
 			image_size = (self.rect_anim.width + self.rect_static.width, self.rect_static.height + anim_y)
 		elif large:
-			self.image_notlarge_org = self.set_font.render(text, True, color)
+			self.image_notlarge_org = fontsRender(self.set_font, text, color)
 			image_size = (self.image_notlarge_org.get_width() * large_scale, self.image_notlarge_org.get_height() * large_scale)
 		else:
-			self.image_org = self.set_font.render(text, True, color)
+			self.image_org = fontsRender(self.set_font, text, color)
 			image_size = (self.image_org.get_size())
 
 		self.updateRectDef(image_size)
@@ -500,7 +522,8 @@ class DSelItemSprite(pygame.sprite.Sprite):
 			self.set_image[i].blit(item_img[i], (0, 0))
 			for k in item_ofs[i]:
 				(ofs_x, ofs_y) = item_ofs[i][k]
-				txt_img = fonts[i][k].render(iteminfo.meta[k], True, item_color[i])
+				# txt_img = fonts[i][k].render(iteminfo.meta[k], True, item_color[i])
+				txt_img = fontsRender(fonts[i][k], iteminfo.meta[k], item_color[i])
 				if item_align[k] == 1:
 					ofs_x -= txt_img.get_width()
 				self.set_image[i].blit(txt_img, (ofs_x, ofs_y))
@@ -761,8 +784,8 @@ class DDraw():
 		itemfonts = [
 			{'title':self.font_ts},
 			{'title':self.font_ts},
-			{'title':self.font_tl, 'subtitle':self.font_ts, 'level0':self.font_n, 'hard0':self.font_s},
-			{'title':self.font_tl, 'subtitle':self.font_ts, 'level1':self.font_n, 'hard1':self.font_s}
+			{'title':(self.font_tl, self.font_ts), 'subtitle':self.font_ts, 'level0':self.font_n, 'hard0':self.font_s},
+			{'title':(self.font_tl, self.font_ts), 'subtitle':self.font_ts, 'level1':self.font_n, 'hard1':self.font_s}
 		]
 		for item in sel_items:
 			item.item_sp = DSelItemSprite(self.spgroup, item, self.item_img, itemfonts)
@@ -918,7 +941,7 @@ class DDraw():
 
 		DImageSprite(self.spgroup, pygame.transform.smoothscale(self.logo_big_img_org, logo_s_rect.org.size), logo_s_rect)
 
-		DTextSprite(self.spgroup, self.font_tl, self.title, title_rect, 1)
+		DTextSprite(self.spgroup, (self.font_tl, self.font_ts), self.title, title_rect, 1)
 		DTextSprite(self.spgroup, self.font_ts, self.subtitle, subtitle_rect, 1)
 		DTextSprite(self.spgroup, self.font_n, str(self.level), hard_rect, 1)
 		DTextSprite(self.spgroup, self.font_s, hard_t[self.ex], hard_t_rect, 1)
@@ -1036,6 +1059,7 @@ class DDraw():
 
 	def game_create_effect(self, notesp, h):
 		effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_img[h][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
+		effect_sp.setScale(self.scr_size, self.scr_scale)
 
 	def game_update(self):
 		self.game_bg()

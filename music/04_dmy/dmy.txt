@@ -5,6 +5,7 @@
 #bpm: 197
 #offset: 0
 #level: 5,9
+#demo: 19.5,53
 
 #start
 @a:3,a.wav,30,100
