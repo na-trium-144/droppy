@@ -2,7 +2,7 @@
 #title: Regain-2-Root <リズミカル☆チェリー>
 //#subtitle: na trium
 #music: 220416.mp3
-#volume: 60
+#volume: 70
 #bpm: 150
 #offset: 0
 #level: 2,8

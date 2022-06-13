@@ -11,7 +11,7 @@ from musicfile import *
 class DSelect():
 	def __init__(self, res_dir, music_dir, usr_dir, ddraw, se):
 		self.ddraw = ddraw
-		self.sel_items = dmusicfile_list(music_dir, usr_dir)
+		self.sel_items = dmusicfile_list(music_dir, res_dir, usr_dir)
 
 		self.se = se
 

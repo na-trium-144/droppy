@@ -45,9 +45,10 @@ class DEvent:
 		return f"DEvent [start_t={self.start_t}, type={self.type}, args={self.args}]"
 
 class DMusicFile():
-	def __init__(self, filename, music_dir, usr_dir):
+	def __init__(self, filename, music_dir, res_dir, usr_dir):
 		self.filename_r = os.path.relpath(filename, music_dir)
 		self.filename = filename
+		self.res_dir = res_dir
 		self.meta = {
 			'title':"",
 			'subtitle':"",
@@ -105,7 +106,7 @@ class DMusicFile():
 		last_cnt = 0
 		measure_cnt = (60 / self.bpm * 4) * game_fps
 		note_l = 16
-		self.notedef = [DNoteInfo(3,None,50,100) for _ in range(26)]
+		self.notedef = [DNoteInfo(3,0,30,100) for _ in range(26)]
 
 		self.dat.append(DEvent(-round(self.delay * game_fps), DEventType.MusicPlay, None))
 		with open(self.filename, "r", encoding="utf-8") as dat_f:
@@ -140,9 +141,16 @@ class DMusicFile():
 					else:
 						col = int(param[0])
 					if len(param) < 2 or param[1] == "":
-						wav = self.notedef[chr].wav
+						wav_name = self.notedef[chr].wav
 					else:
-						wav = os.path.join(os.path.dirname(self.filename), param[1])
+						if param[1].isdigit():
+							wav_name = param[1]
+						else:
+							wav_name = os.path.join(os.path.dirname(self.filename), param[1])
+					if type(wav_name) == int or wav_name.isdigit():
+						wav = os.path.join(self.res_dir, f"se_def{wav_name}.wav")
+					else:
+						wav = wav_name
 					if len(param) < 3 or param[2] == "":
 						vol = self.notedef[chr].vol
 					else:
@@ -197,14 +205,14 @@ class DMusicFile():
 		list.sort(self.dat, key= lambda x: x.start_t)
 		self.start_cnt = self.dat[0].start_t #min(self.dat, key= lambda x:x.start_t)
 
-def dmusicfile_list(music_dir, usr_dir):
+def dmusicfile_list(music_dir, res_dir, usr_dir):
 	dfiles = []
 	for root, dirs, files in sorted(os.walk(top=music_dir)):
 		for file in files:
 			if file.lower().endswith('.txt'):
 				file = os.path.join(root, file)
 				# print(f'filePath = {file}')
-				dm = DMusicFile(file, music_dir, usr_dir)
+				dm = DMusicFile(file, music_dir, res_dir, usr_dir)
 				if dm.droppy:
 					dfiles.append(dm)
 	return dfiles
