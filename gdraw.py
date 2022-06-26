@@ -68,6 +68,8 @@ hard_rect = AlignedRect(1, (1240-70,630), (70,60))
 auto_rect = AlignedRect(1, (200,490), (1040,40))
 auto_t = "[オートプレイ]"
 logo_s_rect = AlignedRect(1, (1240-750/4,380), (750/4, 350/4))
+fps_game_rect = AlignedRect(1, (200, 320), (1040, 40))
+fps_menu_rect = AlignedRect(1, (200, 20), (1040, 40))
 
 score_t_rect = AlignedRect(-1, (40,40), (180,60))
 score_t = "スコア"
@@ -734,10 +736,20 @@ class DDraw():
 				for i in range(4)
 			]
 
+		self.frame_time = []
+		self.frame_last = 0
+
 		if scr_size_debug is not None:
 			self.resize(scr_size_debug)
 		else:
 			self.resize(scr_size_org)
+
+	def fps_update(self):
+		self.frame_time.append(time.time()- self.frame_last)
+		self.frame_last = time.time()
+		while len(self.frame_time) > 30:
+			del self.frame_time[0]
+		self.fps_sp.setText(str(int(len(self.frame_time) / sum(self.frame_time))) + " fps")
 
 	def resize(self, scr_size_new):
 		self.scr_size = scr_size_new
@@ -754,6 +766,7 @@ class DDraw():
 		self.spgroup.empty()
 		self.tit_cnt = 0
 
+		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
 		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
 		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
 		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
@@ -764,6 +777,7 @@ class DDraw():
 	def tit_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
+		self.fps_update()
 
 		bx = 240 + 25 * math.sin(0.017 * self.tit_cnt)
 		by = 60 + 25 * math.cos(0.026 * self.tit_cnt)
@@ -779,6 +793,7 @@ class DDraw():
 		pygame.display.set_caption(caption)
 
 		self.spgroup.empty()
+		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
 
 		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
 		for (y, (help_y_t, help_y_rect)) in enumerate(zip(ss_help_t, ss_help_rect)):
@@ -881,6 +896,7 @@ class DDraw():
 	def sel_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
 		self.screen.blit(self.bg1_s_img, (0, 0))
+		self.fps_update()
 
 		# if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
 		# 	self.sel_redraw_select()
@@ -937,6 +953,7 @@ class DDraw():
 	def game_init(self, ex, auto, dmusic, dresult):
 
 		self.spgroup.empty()
+		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_game_rect, 1)
 
 		self.title = dmusic.title
 		self.subtitle = dmusic.subtitle
@@ -1077,6 +1094,7 @@ class DDraw():
 
 	def game_update(self):
 		self.game_bg()
+		self.fps_update()
 
 		self.scgauge_sp.setV(self.dresult.score, self.dresult.scgclrs, self.dresult.scgmaxs)
 
