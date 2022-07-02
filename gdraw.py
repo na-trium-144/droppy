@@ -766,6 +766,8 @@ class DDraw():
 		self.spgroup.empty()
 		self.tit_cnt = 0
 
+		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_s_img_org, AlignedRect(0, (0, 0), self.scr_size))
+
 		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
 		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
 		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
@@ -776,7 +778,7 @@ class DDraw():
 
 	def tit_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
-		self.screen.blit(self.bg1_s_img, (0, 0))
+		# self.screen.blit(self.bg1_s_img, (0, 0))
 		self.fps_update()
 
 		bx = 240 + 25 * math.sin(0.017 * self.tit_cnt)
@@ -793,13 +795,6 @@ class DDraw():
 		pygame.display.set_caption(caption)
 
 		self.spgroup.empty()
-		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
-
-		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
-		for (y, (help_y_t, help_y_rect)) in enumerate(zip(ss_help_t, ss_help_rect)):
-			for (x, (help_t, help_rect)) in enumerate(zip(help_y_t, help_y_rect)):
-				self.help_sp[y][x] = DTextSprite(self.spgroup, self.font_s, help_t, help_rect)
-				self.help_sp[y][x].setScale(self.scr_size, self.scr_scale)
 
 		itemfonts = [
 			{'title':self.font_ts},
@@ -812,6 +807,16 @@ class DDraw():
 			# item.sp['title'] = DTextSprite(self.font_s, iteminfo.value['title'], Rect(0,0,0,0), -1)
 			item.item_sp.setScale(self.scr_size, self.scr_scale)
 			# self.spgroup.add(item.tit1_sp)
+
+		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_s_img_org, AlignedRect(0, (0, 0), self.scr_size))
+		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
+
+		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
+		for (y, (help_y_t, help_y_rect)) in enumerate(zip(ss_help_t, ss_help_rect)):
+			for (x, (help_t, help_rect)) in enumerate(zip(help_y_t, help_y_rect)):
+				self.help_sp[y][x] = DTextSprite(self.spgroup, self.font_s, help_t, help_rect)
+				self.help_sp[y][x].setScale(self.scr_size, self.scr_scale)
+
 
 		self.hscore_bg_sp = DSquareSprite(self.spgroup, (0, 0, 0, 128), hscore_bg_rect)
 		self.hscore_score_t_sp = DTextSprite(self.spgroup, self.font_s, hscore_score_t, hscore_score_t_rect)
@@ -854,9 +859,9 @@ class DDraw():
 		for sp in self.spgroup:
 			sp.setScale(self.scr_size, self.scr_scale)
 
-		self.sel_num = sel_num
-		self.set_ex(ex)
-		self.set_auto(auto)
+			self.sel_num = sel_num
+			self.set_ex(ex)
+			self.set_auto(auto)
 
 		# self.select_anim = False
 		self.sel_redraw_unselect()
@@ -895,7 +900,7 @@ class DDraw():
 		self.auto = auto
 	def sel_update(self):
 		self.screen.blit(self.bg0_img, (0, 0))
-		self.screen.blit(self.bg1_s_img, (0, 0))
+		# self.screen.blit(self.bg1_s_img, (0, 0))
 		self.fps_update()
 
 		# if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
@@ -953,6 +958,8 @@ class DDraw():
 	def game_init(self, ex, auto, dmusic, dresult):
 
 		self.spgroup.empty()
+		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_img_org, AlignedRect(1, (0, 0), self.scr_size))
+
 		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_game_rect, 1)
 
 		self.title = dmusic.title
@@ -1086,7 +1093,7 @@ class DDraw():
 
 	def game_bg(self):
 		self.screen.blit(self.bg0_img, (0, 0))
-		self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
+		# self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
 
 	def game_create_effect(self, notesp, h):
 		effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_img[h][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
