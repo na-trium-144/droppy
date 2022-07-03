@@ -707,26 +707,37 @@ class DDraw():
 			for c in range(note_col_count)
 		]
 
-		self.note_img = [
-				{s:
+		self.note_img = {
+			c:{s:
 					pygame.transform.smoothscale(self.note_img_org[c], note_size[s])
 					for s in range(1,3)
 				}
-			for c in range(note_col_count)
-		]
+			for c in range(1,note_col_count)
+		}
 			#note_img[col][scale]
 
-		self.effect_img_org = [
-			pygame.image.load(os.path.join(res_dir, "notec{}.png".format(c))).convert_alpha()
-			for c in range(2)
-		]
-		self.effect_img = [
-			{s:
-				pygame.transform.smoothscale(self.effect_img_org[c], note_size[s])
+		self.effect_c_img_org = {
+			c:pygame.image.load(os.path.join(res_dir, "notec{}.png".format(c))).convert_alpha()
+			for c in range(1,note_col_count)
+		}
+		self.effect_e_img_org = \
+			pygame.image.load(os.path.join(res_dir, "notee{}.png".format(1))).convert_alpha()
+			# for c in [1]
+		# ]
+		self.effect_c_img = {
+			c:{s:
+				pygame.transform.smoothscale(self.effect_c_img_org[c], note_size[s])
 				for s in range(1,3)
 			}
-			for c in range(2)
-		]
+			for c in range(1, note_col_count)
+		}
+		self.effect_e_img = \
+			{s:
+				pygame.transform.smoothscale(self.effect_e_img_org, note_size[s])
+				for s in range(1,3)
+			}
+			# for c in range(2)
+		# ]
 
 		self.item_img = [
 				pygame.transform.smoothscale(
@@ -1096,7 +1107,10 @@ class DDraw():
 		# self.screen.blit(self.bg1_img, (self.scr_size[0] - scr_size_org[0] * self.scr_scale, 0))
 
 	def game_create_effect(self, notesp, h):
-		effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_img[h][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
+		if h == 0:
+			effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_c_img[notesp.col][notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
+		elif h == 1:
+			effect_sp = DImageSprite(self.spgroup, pygame.transform.rotate(self.effect_e_img[notesp.image_scale], notesp.image_rot), notesp.rect, large=True)
 		effect_sp.setScale(self.scr_size, self.scr_scale)
 
 	def game_update(self):
