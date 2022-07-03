@@ -95,6 +95,8 @@ class DMusicFile():
 						self.demo_range[1] = float(self.demo_range[1])
 					except:
 						self.demo_range = self.demo_range[:1]
+				elif ll.startswith("#start"):
+					break
 				elif l.startswith("#") and ":" in l:
 					self.meta[l[1:l.find(":")]] = l[l.find(":")+1:].strip()
 		self.dsavedat = DSaveDat(usr_dir, self)
@@ -106,6 +108,7 @@ class DMusicFile():
 		last_cnt = 0
 		measure_cnt = (60 / self.bpm * 4) * game_fps
 		note_l = 16
+		bpm_local = self.bpm
 		self.notedef = [DNoteInfo(3,0,30,100) for _ in range(26)]
 
 		self.dat.append(DEvent(-round(self.delay * game_fps), DEventType.MusicPlay, None))
@@ -131,6 +134,9 @@ class DMusicFile():
 					last_cnt += 60
 					self.dat.append(DEvent(last_cnt, DEventType.End, 0))
 					break
+				elif ll.startswith("#bpm"):
+					bpm_local = float(ll[5:])
+					print("bpm:" + str(bpm_local))
 				elif l.startswith("@"):
 					# color, wav, xp
 					param = l[3:].split(",")
@@ -168,7 +174,7 @@ class DMusicFile():
 						if (ord(c) >= ord("a") and ord(c) <= ord("z")):
 							t2 = round(last_cnt)
 							t1 = round(last_cnt) - round(measure_cnt)
-							last_cnt += (60 / self.bpm * 4 / note_l) * game_fps
+							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
 							ninfo = copy.copy(self.notedef[ord(c) - ord("a")])
 							ninfo.set(game_fps, t1, t2, 1)
 							print(DEvent(t1, 0, ninfo))
@@ -177,7 +183,7 @@ class DMusicFile():
 						if (ord(c) >= ord("A") and ord(c) <= ord("Z")):
 							t2 = round(last_cnt)
 							t1 = round(last_cnt) - round(measure_cnt)
-							last_cnt += (60 / self.bpm * 4 / note_l) * game_fps
+							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
 							# self.dat.append([ord(c) - ord("A"), 2])
 							ninfo = copy.copy(self.notedef[ord(c) - ord("A")])
 							ninfo.set(game_fps, t1, t2, 2)
@@ -185,7 +191,7 @@ class DMusicFile():
 							self.dat.append(DEvent(t1, 0, ninfo))
 							self.count += 2
 						elif (c == "."):
-							last_cnt += (60 / self.bpm * 4 / note_l) * game_fps
+							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
 							# self.dat.append([0, 0])
 						elif (c == "#"):
 							i += 1
