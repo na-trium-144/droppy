@@ -221,8 +221,8 @@ class DNoteSprite(pygame.sprite.Sprite):
 			self.image = pygame.transform.rotate(self.image, self.image_rot)
 
 	def update(self):
-		xp = self.xp
-		xd = mslen * xp / 100
+		xp = self.xp / 100
+		xd = mslen * xp
 		p = (self.t2_by_sec - time.time()) / (self.t2_by_sec - self.t1_by_sec) * 1.1
 		d = mslen * p
 		rot = 0
@@ -231,14 +231,22 @@ class DNoteSprite(pygame.sprite.Sprite):
 			self.rect.org.x = tg[0] + xd * 3 / math.sqrt(13)
 			self.rect.org.y = tg[1] - xd * 2 / math.sqrt(13) - (d - xd)
 			rot = 0
+			if p - xp < 0.05:
+				rot = (0.5 - 0.5 * (p - xp) / 0.05) * bg_angle
 		elif (d > 0): #mv1
 			self.rect.org.x = tg[0] + d * 3 / math.sqrt(13)
 			self.rect.org.y = tg[1] - d * 2 / math.sqrt(13)
 			rot = bg_angle
+			if xp - p < 0.05:
+				rot = (0.5 + 0.5 * (xp - p) / 0.05) * bg_angle
+			if p < 0.05:
+				rot = (0.5 + 0.5 * p / 0.05) * bg_angle
 		elif (d > -hrlen): #mv2
 			self.rect.org.x = tg[0] + d
 			self.rect.org.y = tg[1]
 			rot = 0
+			if -p < 0.05:
+				rot = (0.5 - 0.5 * -p / 0.05) * bg_angle
 		else: #mv3
 			self.rect.org.x = tg[0] - hrlen + (d + hrlen) / 2
 			self.rect.org.y = tg[1] + (d + hrlen) ** 2 / 100
