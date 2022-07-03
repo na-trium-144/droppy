@@ -89,7 +89,6 @@ b.
 
 #l12
 z..a..z..a.d z..a..z..a.d z..a..z..a.d z..a..z..a.d
-#bpm:348
 A..c..a..c.d A..c..a..c.d A..c..a..c.d A..c..a..c.d
 
 #l8A..z#l12a..c.. #l8A..z#l12a..c.. #l8A..Z#l12...c.. a..c..d..c..
