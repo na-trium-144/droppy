@@ -807,8 +807,8 @@ class DDraw():
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 
 	def sel_init(self, sel_items, sel_num, ex, auto):
 		pygame.display.set_caption(caption)
@@ -932,8 +932,8 @@ class DDraw():
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 
 	def sel_itempos(self, n, item, span=False):
 		(i_w, i_h) = item.item_sp.size_org
@@ -1074,8 +1074,8 @@ class DDraw():
 			self.star_sp[i].update()
 		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 	def rslt_comboclear(self):
 		self.combo_sp.setText("")
 		self.combo_t_sp.setText("")
@@ -1083,32 +1083,32 @@ class DDraw():
 		self.combo_t_sp.update()
 		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 
 	def rslt_star(self, i):
 		self.star_sp[i].setImage(self.star1_img_org)
 		self.star_sp[i].update()
 		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 	def rslt_text(self, i):
 		rslt_text_sp = DTextSprite(self.spgroup, self.font_l, rslt_text[i], rslt_text_rect, 0, rslt_text_color[i])
 		rslt_text_sp.setScale(self.scr_size, self.scr_scale)
 		rslt_text_sp.update()
 		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 	def rslt_hiscore(self):
 		rslt_hiscore_sp = DTextSprite(self.spgroup, self.font_l, rslt_hiscore_t, rslt_hiscore_t_rect, 0, rslt_hiscore_t_color)
 		rslt_hiscore_sp.setScale(self.scr_size, self.scr_scale)
 		rslt_hiscore_sp.update()
 		self.game_bg()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 
 	def game_bg(self):
 		self.screen.blit(self.bg0_img, (0, 0))
@@ -1152,8 +1152,8 @@ class DDraw():
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
-		# pygame.display.update(dirty_rects)
-		pygame.display.update()
+		pygame.display.update(dirty_rects)
+		# pygame.display.update()
 
 	def render_align(self, font, text, color, rect, align=-1, before=None):
 		text_img = font.render(text, True, color)
