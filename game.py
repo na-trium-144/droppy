@@ -8,12 +8,11 @@ from result import *
 from gdraw import *
 #from sounddev import *
 
-game_fps = 60
-
 class DGame():
 	def __init__(self, ddraw, dmusicfile, ex, auto, se):
 		self.ddraw = ddraw
 		self.dmusicfile = dmusicfile
+		self.game_fps = dmusicfile.game_fps()
 		self.ex = ex
 		self.auto = auto
 		self.se = se
@@ -70,7 +69,7 @@ class DGame():
 		self.clock = pygame.time.Clock()
 
 		# dsdev = DSoundDev()
-		self.dmusic = DMusic(self.dmusicfile, self.ex, game_fps)
+		self.dmusic = DMusic(self.dmusicfile, self.ex)
 		self.dmusic.start()
 		self.dresult = DResult(self.dmusic.count, self.combo_large, self.dmusicfile.dsavedat, self.ex)
 		# ddraw = DDraw(game_dir)
@@ -80,15 +79,18 @@ class DGame():
 
 		finish_cnt = 0
 		self.main_cnt = self.dmusicfile.start_cnt
-		zero_time = time.time() - self.dmusicfile.start_cnt / game_fps
+		zero_time = time.time() - self.dmusicfile.start_cnt / self.game_fps
 
 		timer_cnt = self.main_cnt
 
 		while True:
-			# self.clock.tick(game_fps)
+			# self.clock.tick(self.game_fps)
+
 			self.main_cnt += 1
-			while timer_cnt < self.main_cnt:
-				timer_cnt += self.clock.tick(0) / 1000 * game_fps
+			# 次のフレームまで待つ
+			# 1fを少し超えちゃったらその次のフレームまで待つ
+			while timer_cnt < self.main_cnt or (timer_cnt - self.main_cnt) % 1 > 0.1:
+				timer_cnt += self.clock.tick(0) / 1000 * self.game_fps
 			while timer_cnt - self.main_cnt > 1:
 				self.main_cnt += 1
 
@@ -134,28 +136,28 @@ class DGame():
 					continue
 				#if (notesp.stat < 0):
 				#	notes.remove(notesp)
-				diff_cnt = self.main_cnt - notesp.t2
-				if (diff_cnt < -15):
+				diff_t = (self.main_cnt - notesp.t2) * 1 / self.game_fps
+				if diff_t < -0.255:
 					break
-				if (hitkey == 0 and diff_cnt > 5): #hnt4 miss
+				if hitkey == 0 and diff_t > 0.090: #hnt4 miss
 					self.dresult.hit(4, notesp.stat)
 					notesp.stat = 0
 				else:
-					while (notesp.stat > 0 and (hitkey > 0 or self.auto and diff_cnt >= 0)):
-						if (notesp.wav is not None):
+					while notesp.stat > 0 and (hitkey > 0 or self.auto and round(diff_t * self.ddraw.actual_fps) >= 0):
+						if notesp.wav is not None:
 							#notesp.wav.play()
 							self.dmusic.play_se(notesp.wav_key)
 						hitkey -= 1
 						#beep
-						if (notesp.stat == 1):
+						if notesp.stat == 1:
 							notesp.stat = -1
 						else:
 							notesp.stat -= 1
 
-						if (abs(diff_cnt) <= 2): #hnt1 good
+						if abs(diff_t) <= 0.040: #hnt1 good
 							self.ddraw.game_create_effect(notesp, 0)
 							self.dresult.hit(1, 1)
-						elif (abs(diff_cnt) <= 4): #hnt2 ok
+						elif abs(diff_t) <= 0.075: #hnt2 ok
 							self.ddraw.game_create_effect(notesp, 1)
 							self.dresult.hit(2, 1)
 						else: #hnt3 bad

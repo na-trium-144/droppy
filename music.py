@@ -7,13 +7,13 @@ import os
 from musicfile import *
 
 class DMusic:
-	def __init__(self, musicfile, ex, game_fps):
-		self.game_fps = game_fps
+	def __init__(self, musicfile, ex):
+		self.game_fps = musicfile.game_fps()
 
 		self.dat_pos = 0
 
 		self.musicfile = musicfile
-		musicfile.loaddat(ex, game_fps)
+		musicfile.loaddat(ex)
 		bgm_file = musicfile.bgm_file
 		bgm_vol = musicfile.vol
 		dat_file = musicfile.filename

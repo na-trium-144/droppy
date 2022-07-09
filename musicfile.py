@@ -3,6 +3,8 @@ import copy
 
 from save import *
 
+lowest_fps = 40
+
 #scoreからデータ受け渡すためだけのclass
 class DNoteInfo:
 	def __init__(self, col, wav, vol, xp):
@@ -101,11 +103,23 @@ class DMusicFile():
 					self.meta[l[1:l.find(":")]] = l[l.find(":")+1:].strip()
 		self.dsavedat = DSaveDat(usr_dir, self)
 
-	def loaddat(self, ex, game_fps):
+	def game_fps(self):
+		l = 3 #=3連符はずれずに使える、5連符や7連符はずれる
+		while True:
+			game_fps = 1 / (60 / self.bpm * 4 / l)
+			if game_fps < lowest_fps:
+				l *= 2
+			elif game_fps > lowest_fps * 2:
+				l /= 2
+			else:
+				return game_fps
+
+	def loaddat(self, ex):
 		self.count = 0
 		self.dat = []
 		# start = False
 		last_cnt = 0
+		game_fps = self.game_fps()
 		measure_cnt = (60 / self.bpm * 4) * game_fps
 		note_l = 16
 		bpm_local = self.bpm

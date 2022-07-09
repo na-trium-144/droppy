@@ -768,7 +768,8 @@ class DDraw():
 		self.frame_last = time.time()
 		while len(self.frame_time) > 30:
 			del self.frame_time[0]
-		self.fps_sp.setText(str(int(len(self.frame_time) / sum(self.frame_time))) + " fps")
+		self.actual_fps = len(self.frame_time) / sum(self.frame_time)
+		self.fps_sp.setText(f"{self.actual_fps:.1f} fps")
 
 	def resize(self, scr_size_new):
 		self.scr_size = scr_size_new
