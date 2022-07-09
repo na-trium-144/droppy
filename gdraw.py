@@ -926,10 +926,11 @@ class DDraw():
 		# if not self.select_anim and self.sel_items[0].item_sp.ofs_start is None:
 		# 	self.sel_redraw_select()
 
-		self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
-		if self.starall_disp > self.starall_num:
-			self.starall_disp = self.starall_num
-		self.starall_star_sp.setText(str(round(self.starall_disp)))
+		if self.sel_info_visible:
+			self.starall_disp += 0.07 * (self.starall_num - self.starall_disp)
+			if self.starall_disp > self.starall_num:
+				self.starall_disp = self.starall_num
+			self.starall_star_sp.setText(str(round(self.starall_disp)))
 
 		self.spgroup.update()
 		dirty_rects = self.spgroup.draw(self.screen)
