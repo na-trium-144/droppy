@@ -3,7 +3,8 @@ import copy
 
 from save import *
 
-lowest_fps = 40
+lowest_fps = 60
+#これの1.25倍までの間(60~75)でfps変動
 
 #scoreからデータ受け渡すためだけのclass
 class DNoteInfo:
@@ -104,15 +105,24 @@ class DMusicFile():
 		self.dsavedat = DSaveDat(usr_dir, self)
 
 	def game_fps(self):
-		l = 3 #=3連符はずれずに使える、5連符や7連符はずれる
+		l = 96 # 32分音符*3連符 までタイミングを刻む
 		while True:
-			game_fps = 1 / (60 / self.bpm * 4 / l)
-			if game_fps < lowest_fps:
+			game_fps = 1 / (lowest_fps / self.bpm * 4 / l)
+			# lに2,3,5,7をかけてfpsを60〜75に抑える
+			# 少なくとも8分音符くらいまではタイミングを同期できるので、すべて60fpsで判定するよりは安定
+			if game_fps < lowest_fps/7*4:
 				l *= 2
-			elif game_fps > lowest_fps * 2:
-				l /= 2
+			elif game_fps < lowest_fps/3*2:
+				l *= 7 / 4 # 34.3~40 -> 60~70
+			elif game_fps < lowest_fps/5*4:
+				l *= 3 / 2 # 40~48 -> 60~72
+			elif game_fps < lowest_fps:
+				l *= 5 / 4 # 48~60 -> 60~75
+			elif game_fps < lowest_fps*1.25:
+				return game_fps # 60~75
 			else:
-				return game_fps
+				l /= 2
+				#bpm188あたりからlが2で割られて32分の成分が消える
 
 	def loaddat(self, ex):
 		self.count = 0

@@ -136,14 +136,14 @@ class DGame():
 					continue
 				#if (notesp.stat < 0):
 				#	notes.remove(notesp)
-				diff_t = (self.main_cnt - notesp.t2) * 1 / self.game_fps
-				if diff_t < -0.255:
+				diff_cnt = self.main_cnt - notesp.t2
+				if diff_cnt < -round(0.25 * self.game_fps): #60fps15f=0.25 75fps19f=0.253
 					break
-				if hitkey == 0 and diff_t > 0.090: #hnt4 miss
+				if hitkey == 0 and diff_cnt > round(0.08 * self.game_fps): #hnt4 miss 60fps5f=0.0833 75fps6f=0.080
 					self.dresult.hit(4, notesp.stat)
 					notesp.stat = 0
 				else:
-					while notesp.stat > 0 and (hitkey > 0 or self.auto and round(diff_t * self.ddraw.actual_fps) >= 0):
+					while notesp.stat > 0 and (hitkey > 0 or self.auto and round(diff_cnt / self.game_fps * self.ddraw.actual_fps) >= 0):
 						if notesp.wav is not None:
 							#notesp.wav.play()
 							self.dmusic.play_se(notesp.wav_key)
@@ -154,10 +154,10 @@ class DGame():
 						else:
 							notesp.stat -= 1
 
-						if abs(diff_t) <= 0.040: #hnt1 good
+						if abs(diff_cnt) <= round(0.03 * self.game_fps): #hnt1 good 60fps2f=0.0333 75fps2f=0.0267
 							self.ddraw.game_create_effect(notesp, 0)
 							self.dresult.hit(1, 1)
-						elif abs(diff_t) <= 0.075: #hnt2 ok
+						elif abs(diff_cnt) <= round(0.06 * self.game_fps): #hnt2 ok 60fps4f=0.0667 75fps4f=0.0533, 5f=0.0667
 							self.ddraw.game_create_effect(notesp, 1)
 							self.dresult.hit(2, 1)
 						else: #hnt3 bad
