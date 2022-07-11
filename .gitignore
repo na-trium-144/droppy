@@ -2,6 +2,8 @@
 usr/
 .DS_Store
 AppIcon.icns
+music/
+!music/sample/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
