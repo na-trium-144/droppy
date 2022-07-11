@@ -15,19 +15,7 @@ class DSaveDat:
 		if os.path.exists(path_r):
 			with open(path_r, "r", encoding="utf-8") as f:
 				dat = f.readlines()
-			for l in dat:
-				l = l.strip()
-				ll = l.lower()
-				if ll.startswith("#score"):
-					h = int(ll[6])
-					self.score[h] = int(ll[ll.find(":")+1:])
-				elif ll.startswith("#hcount"):
-					h = int(ll[7])
-					hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
-					self.hntcount[h] = {i+1:hc_l[i] for i in range(4)}
-				elif ll.startswith("#star"):
-					h = int(ll[5])
-					self.star[h] = int(ll[ll.find(":")+1:])
+				self.parse(dat)
 		else:
 			title_match = False
 			for fn in os.listdir(usr_dir):
@@ -38,25 +26,15 @@ class DSaveDat:
 						l = l.strip()
 						ll = l.lower()
 						if ll.startswith("#title"):
-							t = l[l.find(":"):].strip()
+							t = l[l.find(":")+1:].strip()
+							print(fn)
+							print(t)
 							if t == dmusicfile.meta['title']:
 								title_match = True
 								break
 					if title_match:
 						self.filename = os.path.join(usr_dir, fn)
-						for l in dat:
-							l = l.strip()
-							ll = l.lower()
-							if ll.startswith("#score"):
-								h = int(ll[6])
-								self.score[h] = int(ll[ll.find(":")+1:])
-							elif ll.startswith("#hcount"):
-								h = int(ll[7])
-								hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
-								self.hntcount = {i+1:hc_l[i] for i in range(4)}
-							elif ll.startswith("#star"):
-								h = int(ll[5])
-								self.star[h] = int(ll[ll.find(":")+1:])
+						self.parse(dat)
 						break
 			if not title_match:
 				if os.path.exists(self.filename):
@@ -64,6 +42,21 @@ class DSaveDat:
 					while os.path.exists(self.filename.replace(".txt", f"_{i},txt")):
 						i += 1
 					self.filename = self.filename.replace(".txt", f"_{i}.txt")
+
+	def parse(self, dat):
+		for l in dat:
+			l = l.strip()
+			ll = l.lower()
+			if ll.startswith("#score"):
+				h = int(ll[6])
+				self.score[h] = int(ll[ll.find(":")+1:])
+			elif ll.startswith("#hcount"):
+				h = int(ll[7])
+				hc_l = [int(c) for c in ll[ll.find(":")+1:].split(",")]
+				self.hntcount[h] = {i+1:hc_l[i] for i in range(4)}
+			elif ll.startswith("#star"):
+				h = int(ll[5])
+				self.star[h] = int(ll[ll.find(":")+1:])
 
 	def save(self, ex, nscore, nhntcount, star):
 		print(ex, nscore, nhntcount)
