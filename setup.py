@@ -21,6 +21,7 @@ options = {
 	},
 	"bdist_mac": {
 		"bundle_name": title,
+		"plist_items": [("CFBundleIdentifier", "com.github.na-trium-144.droppy")],
 		"iconfile": "AppIcon.icns",
 	},
 	"bdist_dmg": {
