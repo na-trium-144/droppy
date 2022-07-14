@@ -180,8 +180,9 @@ class DNoteSprite(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.t1 = ninfo.t1
 		self.t2 = ninfo.t2
-		self.t1_by_sec = ninfo.t1_by_sec + zero_time
-		self.t2_by_sec = ninfo.t2_by_sec + zero_time
+		self.zero_time = zero_time
+		self.t1_by_sec = ninfo.t1_by_sec #+ zero_time
+		self.t2_by_sec = ninfo.t2_by_sec #+ zero_time
 		self.xp = ninfo.xp
 		self.col = ninfo.col
 		self.wav = ninfo.wav
@@ -223,7 +224,18 @@ class DNoteSprite(pygame.sprite.Sprite):
 	def update(self):
 		xp = self.xp / 100
 		xd = mslen * xp
-		p = (self.t2_by_sec - time.time()) / (self.t2_by_sec - self.t1_by_sec) * 1.1
+		t1_start = None
+		t1_end = None
+		t_now = time.time() - self.zero_time
+		for i in range(1, len(self.t1_by_sec)): # 時刻が後のものから比較
+			if t_now > self.t1_by_sec[i]['t']: # t1[i-1] > t_now > t1[i]
+				t1_start = self.t1_by_sec[i]
+				t1_end = self.t1_by_sec[i - 1]
+				break
+		if t1_start is None:
+			t1_start = self.t1_by_sec[-1]
+			t1_end = self.t1_by_sec[-2]
+		p = (t1_end['p'] + (t1_start['p'] - t1_end['p']) * (t1_end['t'] - t_now) / (t1_end['t'] - t1_start['t'])) * 1.1
 		d = mslen * p
 		rot = 0
 		scale = 1

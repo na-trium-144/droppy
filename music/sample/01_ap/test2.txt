@@ -68,6 +68,7 @@ A.a. c.c. D
 @z:7,,,0
 
 #l8
+#speed@pqrstuvwacdz: 0, 8
 @p:8,ch.wav,10,10
 @q:8,ch.wav,15,20
 @r:8,ch.wav,20,30
@@ -84,6 +85,7 @@ b.
 @b:,,20,20
 b.
 @b:,,10,0
+#speed@pqrstuvwacdz: 174
 b.
 @b:,,40,80
 

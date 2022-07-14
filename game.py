@@ -12,7 +12,7 @@ class DGame():
 	def __init__(self, ddraw, dmusicfile, ex, auto, se):
 		self.ddraw = ddraw
 		self.dmusicfile = dmusicfile
-		self.game_fps = dmusicfile.game_fps()
+		self.game_fps = dmusicfile.calc_game_fps()
 		self.ex = ex
 		self.auto = auto
 		self.se = se
@@ -103,6 +103,7 @@ class DGame():
 			for ninfo in noteinfo:
 				notesp = DNoteSprite(ninfo, zero_time)
 				notes.append(notesp)
+				list.sort(notes, key= lambda x: x.t2)
 				self.ddraw.addnote(notesp)
 
 			#btn

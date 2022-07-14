@@ -21,10 +21,11 @@ class DNoteInfo:
 		self.wav_key = (wav, vol)
 
 	def set(self, game_fps, t1, t2, stat):
-		self.t1 = t1
-		self.t2 = t2
-		self.stat = stat
-		self.t1_by_sec = t1 / game_fps
+		self.t1 = t1 # [{'cnt', 'p'}, ...] (降順)
+		self.t2 = t2 # 判定時刻(cnt)
+		self.stat = stat # 1 or 2
+		# self.t1_by_sec = t1 / game_fps
+		self.t1_by_sec = [{'t':t['cnt'] / game_fps, 'p':t['p']} for t in t1]
 		self.t2_by_sec = t2 / game_fps
 
 	def __str__(self):
@@ -61,6 +62,7 @@ class DMusicFile():
 		self.bgm_file = ""
 		self.vol = 50
 		self.bpm = 120
+		self.speed = 0
 		self.delay = 0
 		self.demo_range = None
 		self.droppy = False
@@ -76,6 +78,10 @@ class DMusicFile():
 					self.droppy = True
 				elif ll.startswith("#bpm:"):
 					self.bpm = float(l[5:])
+					if self.speed == 0:
+						self.speed = self.bpm
+				elif ll.startswith("#speed:"):
+					self.speed = float(l[7:])
 				elif ll.startswith("#volume:"):
 					self.vol = float(l[8:])
 				elif ll.startswith("#offset:"):
@@ -104,7 +110,7 @@ class DMusicFile():
 					self.meta[l[1:l.find(":")]] = l[l.find(":")+1:].strip()
 		self.dsavedat = DSaveDat(usr_dir, self)
 
-	def game_fps(self):
+	def calc_game_fps(self):
 		l = 96 # 32分音符*3連符 までタイミングを刻む
 		while True:
 			game_fps = 1 / (lowest_fps / self.bpm * 4 / l)
@@ -129,13 +135,14 @@ class DMusicFile():
 		self.dat = []
 		# start = False
 		last_cnt = 0
-		game_fps = self.game_fps()
-		measure_cnt = (60 / self.bpm * 4) * game_fps
+		self.game_fps = self.calc_game_fps()
+		measure_cnt = (60 / self.bpm * 4) * self.game_fps
 		note_l = 16
 		bpm_local = self.bpm
+		speed_history = [[{'cnt':-9999999999, 'val':self.speed}] for _ in range(26)]
 		self.notedef = [DNoteInfo(3,0,30,100) for _ in range(26)]
 
-		self.dat.append(DEvent(-round(self.delay * game_fps), DEventType.MusicPlay, None))
+		self.dat.append(DEvent(-round(self.delay * self.game_fps), DEventType.MusicPlay, None))
 		with open(self.filename, "r", encoding="utf-8") as dat_f:
 			dat_l = dat_f.readlines()
 			for i in range(ex):
@@ -161,6 +168,30 @@ class DMusicFile():
 				elif ll.startswith("#bpm"):
 					bpm_local = float(ll[5:])
 					print("bpm:" + str(bpm_local))
+				elif ll.startswith("#speed"):
+					c_target_expr = ll[6:ll.find(":")].strip()
+					if c_target_expr.startswith("@"):
+						c_target = [ord(c) - ord("a") for c in c_target_expr[1:]]
+					else:
+						c_target = [c for c in range(26)]
+					speed_s = ll[ll.find(":")+1:].split(",")
+					speed_local = float(speed_s[0])
+					try:
+						speed_change_time = float(speed_s[1])
+					except:
+						speed_change_time = 0
+					for c in c_target:
+						if len(speed_history[c]) == 1 and last_cnt == 0 and speed_change_time == 0:
+							speed_history[c][0]['val'] = speed_local
+						else:
+							speed_change_cnt = max(1, round(speed_change_time * self.cnt_diff(bpm_local, note_l)))
+							speed_last = speed_history[c][-1]['val']
+							for t in range(speed_change_cnt):
+								speed_history[c].append({
+									'cnt':round(last_cnt) + t,
+									'val':speed_last + (speed_local - speed_last) * (t + 1) / (speed_change_cnt)
+								})
+								print("speed:" + str(speed_history[c][-1]['val']))
 				elif l.startswith("@"):
 					# color, wav, xp
 					param = l[3:].split(",")
@@ -197,25 +228,26 @@ class DMusicFile():
 						c = l[i]
 						if (ord(c) >= ord("a") and ord(c) <= ord("z")):
 							t2 = round(last_cnt)
-							t1 = round(last_cnt) - round(measure_cnt)
-							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
+							t1 = self.calc_note_move(ord(c) - ord("a"), last_cnt, speed_history, note_l)
+							last_cnt += self.cnt_diff(bpm_local, note_l)
 							ninfo = copy.copy(self.notedef[ord(c) - ord("a")])
-							ninfo.set(game_fps, t1, t2, 1)
-							print(DEvent(t1, 0, ninfo))
-							self.dat.append(DEvent(t1, 0, ninfo))
+							ninfo.set(self.game_fps, t1, t2, 1)
+							print(DEvent(t1[-1]['cnt'], 0, ninfo))
+							self.dat.append(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.count += 1
 						if (ord(c) >= ord("A") and ord(c) <= ord("Z")):
 							t2 = round(last_cnt)
-							t1 = round(last_cnt) - round(measure_cnt)
-							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
+							# t1 = round(last_cnt) - round(measure_cnt)
+							t1 = self.calc_note_move(ord(c) - ord("A"), last_cnt, speed_history, note_l)
+							last_cnt += self.cnt_diff(bpm_local, note_l)
 							# self.dat.append([ord(c) - ord("A"), 2])
 							ninfo = copy.copy(self.notedef[ord(c) - ord("A")])
-							ninfo.set(game_fps, t1, t2, 2)
-							print(DEvent(t1, 0, ninfo))
-							self.dat.append(DEvent(t1, 0, ninfo))
+							ninfo.set(self.game_fps, t1, t2, 2)
+							print(DEvent(t1[-1]['cnt'], 0, ninfo))
+							self.dat.append(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.count += 2
 						elif (c == "."):
-							last_cnt += (60 / bpm_local * 4 / note_l) * game_fps
+							last_cnt += self.cnt_diff(bpm_local, note_l)
 							# self.dat.append([0, 0])
 						elif (c == "#"):
 							i += 1
@@ -233,8 +265,29 @@ class DMusicFile():
 								# self.dat.append(["#l", int(num)])
 						i += 1
 		list.sort(self.dat, key= lambda x: x.start_t)
-		self.start_cnt = self.dat[0].start_t #min(self.dat, key= lambda x:x.start_t)
+		# self.start_cnt = self.dat[0].start_t
+		self.start_cnt = -measure_cnt
 
+
+	def cnt_diff(self, bpm_local, note_l):
+		return (60 / bpm_local * 4 / note_l) * self.game_fps
+	def calc_note_move(self, c, last_cnt, speed_history, note_l):
+		t = last_cnt
+		p = 0
+		tlist = [{'cnt':round(t), 'p':p}]
+		for spd in reversed(speed_history[c]):
+			if t <= spd['cnt']:
+				continue
+			# new_p = p + (t - spd['cnt']) / (60 / spd['val'] * 4 * self.game_fps)
+			new_p = p + (t - spd['cnt']) / 60 * spd['val'] / 4 / self.game_fps
+			if new_p < 1:
+				tlist.append({'cnt':spd['cnt'], 'p':new_p})
+				p = new_p
+				t = spd['cnt']
+			else:
+				tlist.append({'cnt':t - round((t - spd['cnt']) * (1 - p) / (new_p - p)), 'p':1})
+				break
+		return tlist
 def dmusicfile_list(music_dir, res_dir, usr_dir):
 	dfiles = []
 	for root, dirs, files in sorted(os.walk(top=music_dir)):
