@@ -228,6 +228,8 @@ class DNoteSprite(pygame.sprite.Sprite):
 		t1_end = None
 		t_now = time.time() - self.zero_time
 		for i in range(1, len(self.t1_by_sec)): # 時刻が後のものから比較
+			if self.t1_by_sec[i]['t'] == self.t1_by_sec[i - 1]['t']:
+				continue
 			if t_now > self.t1_by_sec[i]['t']: # t1[i-1] > t_now > t1[i]
 				t1_start = self.t1_by_sec[i]
 				t1_end = self.t1_by_sec[i - 1]
