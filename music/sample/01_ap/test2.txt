@@ -8,17 +8,17 @@
 #demo: 2.7, 36.5
 
 #start
-
-@a:7,,,100
-//@b:6,r.wav,30,80
+#speed: 130.5
+@a:7
 @c:4,2,,50
 @d:1,ch.wav,50,30
 @z:7,,,0
-
+@b:6,a.wav,40,
 
 #l8
 A..d....
-@b:6,k.wav,40,60
+
+@b:,,40,60
 b.
 @b:,,30,40
 b.
@@ -61,31 +61,40 @@ A.a. c.c. D
 #end
 
 #start
-@a:7,,,100
-//@b:6,r.wav,30,80
+@a:7
 @c:4,2,,50
 @d:1,ch.wav,50,30
 @z:7,,,0
+@p:8,ch.wav,
+@b:6,a.wav,
 
 #l8
-#speed@pqrstuvwacdz: 0, 8
-@p:8,ch.wav,10,10
-@q:8,ch.wav,15,20
-@r:8,ch.wav,20,30
-@s:8,ch.wav,25,40
-@t:8,ch.wav,30,50
-@u:8,ch.wav,35,60
-@v:8,ch.wav,40,70
-@w:8,ch.wav,45,80
-pqrstuvw
-@b:6,a.wav,40,60
+#speed @pacdz: 0, 8
+@p:,,10,10
+p
+@p:,,15,20
+p
+@p:,,20,30
+p
+@p:,,25,40
+p
+@p:,,30,50
+p
+@p:,,35,60
+p
+@p:,,40,70
+p
+@p:,,45,80
+p
+
+@b:,,40,60
 b.
 @b:,,30,40
 b.
 @b:,,20,20
 b.
 @b:,,10,0
-#speed@pqrstuvwacdz: 174
+#speed @pacdz: 174
 b.
 @b:,,40,80
 
@@ -105,12 +114,64 @@ A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.da..a..
 A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.dc..c..
 
 #l8
-zzC..d.. zzC..d.. zzC..d.. a.c.a.d.
-zzC..d.. zzC..d.. zzC..d.. a.c.a.d.
-ZzC..d.. ZzC..d.. ZzC..d.. A..d....
-ZzC..d.. ZzC..d.. ZzC..d.. A..d....
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+a.c.a.d.
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+z
+#speed @acd: 174
+zC..d..
+a.c.a.d.
 
-D..z..a. D..a..z. D..z..a. b.b.b.b.
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+A..d....
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+#speed @acd: 0
+Z
+#speed @acd: 174
+zC..d..
+A..d....
+
+#speed @acdz: 0, 24
+D..z..a. D..a..z. D..z..a.
+#speed @acdz: 174, 8
+b.b.b.b.
 
 #l12
 Z..a..z.da.. Z..a..z.da.. Z..a..z..a.d a..a.da..a..
