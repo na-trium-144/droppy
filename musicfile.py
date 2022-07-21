@@ -152,10 +152,17 @@ class DMusicFile():
 					pass
 			while not dat_l.pop(0).lower().startswith("#start"):
 				pass
+			# #で分ける
+			dat_l2 = []
 			for l in dat_l:
 				if "//" in l:
 					l = l[:l.find("//")]
+				l = l.replace("#", "\n#")
+				dat_l2 += l.split("\n")
+			for l in dat_l2:
 				l = l.strip()
+				if l.startswith("# "):
+					l = l[2:].strip()
 				ll = l.lower()
 				print(l)
 				if ll.startswith("#end"):
@@ -182,7 +189,11 @@ class DMusicFile():
 						speed_change_time = 0
 					for c in c_target:
 						if len(speed_history[c]) == 1 and last_cnt == 0 and speed_change_time == 0:
-							speed_history[c][0]['val'] = speed_local
+							# speed_history[c][0]['val'] = speed_local
+							speed_history[c].append({
+								'cnt': speed_history[c][0]['cnt'],
+								'val': speed_local
+							})
 						else:
 							speed_change_cnt = max(1, round(speed_change_time * self.cnt_diff(bpm_local, note_l)))
 							speed_last = speed_history[c][-1]['val']
@@ -191,7 +202,7 @@ class DMusicFile():
 									'cnt':round(last_cnt) + t,
 									'val':speed_last + (speed_local - speed_last) * (t + 1) / (speed_change_cnt)
 								})
-								print("speed:" + str(speed_history[c][-1]['val']))
+								# print("speed:" + str(speed_history[c][-1]['val']))
 				elif l.startswith("@"):
 					# color, wav, xp
 					param = l[3:].split(",")
@@ -232,7 +243,7 @@ class DMusicFile():
 							last_cnt += self.cnt_diff(bpm_local, note_l)
 							ninfo = copy.copy(self.notedef[ord(c) - ord("a")])
 							ninfo.set(self.game_fps, t1, t2, 1)
-							print(DEvent(t1[-1]['cnt'], 0, ninfo))
+							# print(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.dat.append(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.count += 1
 						if (ord(c) >= ord("A") and ord(c) <= ord("Z")):
@@ -243,7 +254,7 @@ class DMusicFile():
 							# self.dat.append([ord(c) - ord("A"), 2])
 							ninfo = copy.copy(self.notedef[ord(c) - ord("A")])
 							ninfo.set(self.game_fps, t1, t2, 2)
-							print(DEvent(t1[-1]['cnt'], 0, ninfo))
+							# print(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.dat.append(DEvent(t1[-1]['cnt'], 0, ninfo))
 							self.count += 2
 						elif (c == "."):
@@ -280,13 +291,17 @@ class DMusicFile():
 				continue
 			# new_p = p + (t - spd['cnt']) / (60 / spd['val'] * 4 * self.game_fps)
 			new_p = p + (t - spd['cnt']) / 60 * spd['val'] / 4 / self.game_fps
-			if new_p < 1:
+			if abs(new_p) < 1:
 				tlist.append({'cnt':spd['cnt'], 'p':new_p})
 				p = new_p
 				t = spd['cnt']
-			else:
+			elif new_p >= 1:
 				tlist.append({'cnt':t - round((t - spd['cnt']) * (1 - p) / (new_p - p)), 'p':1})
 				break
+			else:
+				tlist.append({'cnt':t - round((t - spd['cnt']) * (-1 - p) / (new_p - p)), 'p':1})
+				break
+
 		return tlist
 def dmusicfile_list(music_dir, res_dir, usr_dir):
 	dfiles = []

@@ -114,58 +114,21 @@ A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.da..a..
 A..c..a.D... C..a.dc..d.. A..c.da..a.. c..a.dc..c..
 
 #l8
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
 a.c.a.d.
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-z
-#speed @acd: 174
-zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # z #speed @acd: 174 # zC..d..
 a.c.a.d.
-
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
 A..d....
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
-#speed @acd: 0
-Z
-#speed @acd: 174
-zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
+#speed @acd: 0 # Z #speed @acd: 174 # zC..d..
 A..d....
 
 #speed @acdz: 0, 24

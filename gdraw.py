@@ -230,13 +230,10 @@ class DNoteSprite(pygame.sprite.Sprite):
 		for i in range(1, len(self.t1_by_sec)): # 時刻が後のものから比較
 			if self.t1_by_sec[i]['t'] == self.t1_by_sec[i - 1]['t']:
 				continue
+			t1_start = self.t1_by_sec[i]
+			t1_end = self.t1_by_sec[i - 1]
 			if t_now > self.t1_by_sec[i]['t']: # t1[i-1] > t_now > t1[i]
-				t1_start = self.t1_by_sec[i]
-				t1_end = self.t1_by_sec[i - 1]
 				break
-		if t1_start is None:
-			t1_start = self.t1_by_sec[-1]
-			t1_end = self.t1_by_sec[-2]
 		p = (t1_end['p'] + (t1_start['p'] - t1_end['p']) * (t1_end['t'] - t_now) / (t1_end['t'] - t1_start['t'])) * 1.1
 		d = mslen * p
 		rot = 0
