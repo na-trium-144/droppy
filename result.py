@@ -29,7 +29,7 @@ class DResult:
 			return 2 # full combo
 		return 3 # perfect
 
-	def hit(self, h, stat):
+	def hit(self, h, stat, notesp):
 		oldcombo = self.combo
 		if (h == 1):
 			self.hntcount[1] += 1
@@ -38,8 +38,10 @@ class DResult:
 				scadd1 = self.scbase + self.scbonus
 			else:
 				scadd1 = self.scbase + self.combo * self.scbonus / 100
-			self.scadd = round(scadd1 / self.count)
-			self.score += self.scadd
+			scadd1 = round(scadd1 / self.count)
+			self.score += scadd1
+			notesp.scadd += scadd1
+			self.scadd = notesp.scadd
 			self.rest -= 1
 		if (h == 2):
 			self.hntcount[2] += 1
@@ -48,8 +50,10 @@ class DResult:
 				scadd1 = self.scbase + self.scbonus
 			else:
 				scadd1 = self.scbase + self.combo * self.scbonus / 100
-			self.scadd = round(scadd1 / self.count * .6)
-			self.score += self.scadd
+			scadd1 = round(scadd1 / self.count * .6)
+			self.score += scadd1
+			notesp.scadd += scadd1
+			self.scadd = notesp.scadd
 			self.rest -= 1
 		if (h == 3):
 			self.hntcount[3] += 1
@@ -58,8 +62,9 @@ class DResult:
 		if (h == 4):
 			self.hntcount[4] += 1
 			self.combo = 0
-			self.scadd = -round(self.scbase / self.count)
-			self.score += self.scadd
+			scadd1 = -round(self.scbase / self.count)
+			self.score += scadd1
+			self.scadd = scadd1
 			self.rest -= stat
 		if (self.score < 0):
 			self.score = 0

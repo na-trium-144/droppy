@@ -141,7 +141,7 @@ class DGame():
 				if diff_cnt < -round(0.25 * self.game_fps): #60fps15f=0.25 75fps19f=0.253
 					break
 				if hitkey == 0 and diff_cnt > round(0.08 * self.game_fps): #hnt4 miss 60fps5f=0.0833 75fps6f=0.080
-					self.dresult.hit(4, notesp.stat)
+					self.dresult.hit(4, notesp.stat, notesp)
 					notesp.stat = 0
 				else:
 					while notesp.stat > 0 and (hitkey > 0 or self.auto and round(diff_cnt / self.game_fps * self.ddraw.actual_fps) >= 0):
@@ -157,12 +157,12 @@ class DGame():
 
 						if abs(diff_cnt) <= round(0.03 * self.game_fps): #hnt1 good 60fps2f=0.0333 75fps2f=0.0267
 							self.ddraw.game_create_effect(notesp, 0)
-							self.dresult.hit(1, 1)
+							self.dresult.hit(1, 1, notesp)
 						elif abs(diff_cnt) <= round(0.06 * self.game_fps): #hnt2 ok 60fps4f=0.0667 75fps4f=0.0533, 5f=0.0667
 							self.ddraw.game_create_effect(notesp, 1)
-							self.dresult.hit(2, 1)
+							self.dresult.hit(2, 1, notesp)
 						else: #hnt3 bad
-							self.dresult.hit(3, 1)
+							self.dresult.hit(3, 1, notesp)
 			if (hitkey > 0):
 				#self.dmusic.se_default.play()
 				self.dmusic.play_se_default()

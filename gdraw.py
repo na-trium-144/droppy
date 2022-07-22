@@ -192,6 +192,7 @@ class DNoteSprite(pygame.sprite.Sprite):
 		#self.image = note_img
 		self.stat = ninfo.stat
 		self.scr_scale = 1
+		self.scadd = 0
 
 	#画像の初期化 1度しか呼ばれない
 	#setscaleも兼ねる
