@@ -55,6 +55,8 @@ slidein_t1 = 8 / 60
 slidein_t2 = 30 / 60
 large_t = 20 / 60
 large_scale = 3
+shadow_pos = 2
+shadow_col = (100, 100, 100)
 
 note_col_count = 9
 note_size = {1:(60, 40), 2:(90, 60)}
@@ -325,7 +327,7 @@ def fontsRender(fonts, text, color):
 #setText時にslidein=Trueで横からスライドイン
 #setText時にlarge=Trueで拡大フェードアウトアニメーション
 class DTextSprite(pygame.sprite.Sprite):
-	def __init__(self, spgroup, font, text, rect, align=-1, color=(255,255,255)):
+	def __init__(self, spgroup, font, text, rect, align=-1, color=(255,255,255), shadow=False):
 		pygame.sprite.Sprite.__init__(self)
 		spgroup.add(self)
 		self.set_font = font
@@ -337,8 +339,10 @@ class DTextSprite(pygame.sprite.Sprite):
 		self.anim_start = None
 		self.slidein_start = None
 		self.large_start = None
+		self.shadow = shadow
 		self.rect = AlignedRect(rect.align) #slideinの移動先etcに使う
 		self.image_org = None
+		self.image_shadow_org = None
 		self.image_static_org = None #animで動かない側
 		self.image_anim_org = None #animで動く側
 		self.image_notlarge_org = None #拡大前画像
@@ -356,6 +360,8 @@ class DTextSprite(pygame.sprite.Sprite):
 	def updateImg(self):
 		if self.image_org is not None:
 			self.image = pygame.transform.smoothscale(self.image_org, [self.scr_scale * self.image_org.get_size()[i] for i in range(2)])
+		if self.image_shadow_org is not None:
+			self.image_shadow = pygame.transform.smoothscale(self.image_shadow_org, [self.scr_scale * self.image_shadow_org.get_size()[i] for i in range(2)])
 		if self.image_notlarge_org is not None:
 			self.image_notlarge = pygame.transform.smoothscale(self.image_notlarge_org, [self.scr_scale * self.image_notlarge_org.get_size()[i] for i in range(2)])
 		if self.image_static_org is not None:
@@ -369,6 +375,8 @@ class DTextSprite(pygame.sprite.Sprite):
 
 	def updateRectDef(self, image_size):
 		(image_w, image_h) = image_size
+		image_w += shadow_pos
+		image_h += shadow_pos
 		(x, y) = self.set_rect.org.topleft
 		if (self.set_align == -1):
 			pass
@@ -389,6 +397,9 @@ class DTextSprite(pygame.sprite.Sprite):
 			color = self.set_color
 		if self.set_text == text and self.set_color == color and not slidein and not large:
 			return
+
+		if self.shadow:
+			self.image_shadow_org = fontsRender(self.set_font, text, shadow_col)
 
 		if anim:
 			text_static = ""
@@ -415,6 +426,12 @@ class DTextSprite(pygame.sprite.Sprite):
 		else:
 			self.image_org = fontsRender(self.set_font, text, color)
 			image_size = (self.image_org.get_size())
+			if self.shadow:
+				img = pygame.Surface((self.image_org.get_width() + shadow_pos, self.image_org.get_height() + shadow_pos), pygame.SRCALPHA)
+				img.blit(self.image_shadow_org, (shadow_pos, shadow_pos))
+				img.blit(self.image_org, (0, 0))
+				self.image_org = img
+				self.image_shadow_org = None
 
 		self.updateRectDef(image_size)
 
@@ -446,6 +463,8 @@ class DTextSprite(pygame.sprite.Sprite):
 				anim_ofs = 1
 				self.anim_start = None
 			self.image = pygame.Surface(self.rect.size, SRCALPHA)
+			if self.shadow:
+				self.image.blit(self.image_shadow, (shadow_pos * self.scr_scale, (anim_y + shadow_pos) * self.scr_scale))
 			self.image.blit(self.image_static, [self.scr_scale * self.rect_static.topleft[i] for i in range(2)])
 			self.image.blit(self.image_anim, [self.scr_scale * self.rect_anim.move(0, anim_y * anim_ofs).topleft[i] for i in range(2)])
 
@@ -814,7 +833,7 @@ class DDraw():
 		if not fps_disp:
 			self.spgroup.remove(self.fps_sp)
 		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
-		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
+		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0, shadow=True)
 		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
 		self.logo_big_sp = DImageSprite(self.spgroup, self.logo_big_img_org, AlignedRect(0, (0, 0), self.scr_size))
 		for sp in self.spgroup:
@@ -1029,24 +1048,24 @@ class DDraw():
 		DTextSprite(self.spgroup, self.font_n, str(self.level), hard_rect, 1)
 		DTextSprite(self.spgroup, self.font_s, hard_t[self.ex], hard_t_rect, 1)
 		self.auto_sp = DTextSprite(self.spgroup, self.font_s, auto_t if self.auto else "", auto_rect, 1)
-		DTextSprite(self.spgroup, self.font_l, score_t, score_t_rect)
-		DTextSprite(self.spgroup, self.font_s, hiscore_t, hiscore_t_rect)
+		DTextSprite(self.spgroup, self.font_l, score_t, score_t_rect, shadow=True)
+		DTextSprite(self.spgroup, self.font_s, hiscore_t, hiscore_t_rect, shadow=True)
 		for i in range(1,6):
-			DTextSprite(self.spgroup, self.font_s, hnt_t[i], hnt_t_rect[i])
-		self.combo_t_sp = DTextSprite(self.spgroup, self.font_s, "", combo_t_rect, 0)
+			DTextSprite(self.spgroup, self.font_s, hnt_t[i], hnt_t_rect[i], shadow=True)
+		self.combo_t_sp = DTextSprite(self.spgroup, self.font_s, "", combo_t_rect, 0, shadow=True)
 
 		self.scgauge_sp = DScGaugeSprite(self.spgroup)
 
 		#self.result_sp = [DTextSprite(font_, "", rect_, align_) for (font_, rect_, align_) in \
-		self.combo_sp = DTextSprite(self.spgroup, self.font_n, "", combo_rect, 0)
-		self.combo_large_sp = DTextSprite(self.spgroup, self.font_n, "", combo_large_rect, 0)
-		self.score_sp = DTextSprite(self.spgroup, self.font_n, "", score_rect, 1)
-		self.hiscore_sp = DTextSprite(self.spgroup, self.font_s, "", hiscore_rect, 1)
-		self.scoreadd_sp = DTextSprite(self.spgroup, self.font_n, "", scoreadd_rect, 1)
+		self.combo_sp = DTextSprite(self.spgroup, self.font_n, "", combo_rect, 0, shadow=True)
+		self.combo_large_sp = DTextSprite(self.spgroup, self.font_n, "", combo_large_rect, 0, shadow=True)
+		self.score_sp = DTextSprite(self.spgroup, self.font_n, "", score_rect, 1, shadow=True)
+		self.hiscore_sp = DTextSprite(self.spgroup, self.font_s, "", hiscore_rect, 1, shadow=True)
+		self.scoreadd_sp = DTextSprite(self.spgroup, self.font_n, "", scoreadd_rect, 1, shadow=True)
 		self.hnt_sp = {}
 		for i in range(1,5):
-			self.hnt_sp[i] = DTextSprite(self.spgroup, self.font_ns, "", hnt_rect[i], 1)
-		self.rest_sp = DTextSprite(self.spgroup, self.font_ns, "", hnt_rect[5], 1)
+			self.hnt_sp[i] = DTextSprite(self.spgroup, self.font_ns, "", hnt_rect[i], 1, shadow=True)
+		self.rest_sp = DTextSprite(self.spgroup, self.font_ns, "", hnt_rect[5], 1, shadow=True)
 		# self.sp_combo = DTextSprite(self.font_n, "", rect_, align_)
 
 		# for i in range(9):
@@ -1088,7 +1107,7 @@ class DDraw():
 		self.combo_large_sp.setText(str(self.dresult.combo) if self.dresult.combo > 0 else "", color=combo_col, large=True)
 
 	def rslt_rank_t(self):
-		rank_t_sp = DTextSprite(self.spgroup, self.font_s, rslt_rank_t, rslt_rank_t_rect, 0)
+		rank_t_sp = DTextSprite(self.spgroup, self.font_s, rslt_rank_t, rslt_rank_t_rect, 0, shadow=True)
 		rank_t_sp.setScale(self.scr_size, self.scr_scale)
 		rank_t_sp.update()
 		self.star_sp = [
@@ -1118,7 +1137,7 @@ class DDraw():
 
 
 	def rslt_text(self, i):
-		rslt_text_sp = DTextSprite(self.spgroup, self.font_l, rslt_text[i], rslt_text_rect, 0, rslt_text_color[i])
+		rslt_text_sp = DTextSprite(self.spgroup, self.font_l, rslt_text[i], rslt_text_rect, 0, rslt_text_color[i], shadow=True)
 		rslt_text_sp.setScale(self.scr_size, self.scr_scale)
 		rslt_text_sp.update()
 		self.game_bg()
