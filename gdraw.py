@@ -5,6 +5,7 @@ import time
 import math
 
 caption = "Droppy ver1.1"
+fps_disp = False
 
 scr_size_debug = None #(640, 480)
 
@@ -810,6 +811,8 @@ class DDraw():
 		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_s_img_org, AlignedRect(0, (0, 0), self.scr_size))
 
 		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
+		if not fps_disp:
+			self.spgroup.remove(self.fps_sp)
 		DTextSprite(self.spgroup, self.font_s, tit_title, tit_title_rect, 0)
 		DTextSprite(self.spgroup, self.font_l, tit_press, tit_press_rect, 0)
 		DTextSprite(self.spgroup, self.font_s, tit_copyright, tit_copyright_rect, 0)
@@ -849,6 +852,8 @@ class DDraw():
 
 		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_s_img_org, AlignedRect(0, (0, 0), self.scr_size))
 		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_menu_rect, 1)
+		if not fps_disp:
+			self.spgroup.remove(self.fps_sp)
 
 		self.help_sp = [[None for _ in  range(4)] for _2 in range(3)]
 		for (y, (help_y_t, help_y_rect)) in enumerate(zip(ss_help_t, ss_help_rect)):
@@ -999,6 +1004,8 @@ class DDraw():
 		self.bg1_sp = DImageSprite(self.spgroup, self.bg1_img_org, AlignedRect(1, (0, 0), self.scr_size))
 
 		self.fps_sp = DTextSprite(self.spgroup, self.font_s, "", fps_game_rect, 1)
+		if not fps_disp:
+			self.spgroup.remove(self.fps_sp)
 
 		self.title = dmusic.title
 		self.subtitle = dmusic.subtitle
