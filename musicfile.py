@@ -200,9 +200,13 @@ class DMusicFile():
 							for t in range(speed_change_cnt):
 								speed_history[c].append({
 									'cnt':round(last_cnt) + t,
-									'val':speed_last + (speed_local - speed_last) * (t + 1) / (speed_change_cnt)
+									'val':speed_last + (speed_local - speed_last) * (t + 0.5) / (speed_change_cnt)
 								})
 								# print("speed:" + str(speed_history[c][-1]['val']))
+							speed_history[c].append({
+								'cnt':round(last_cnt) + speed_change_cnt,
+								'val':speed_local
+							})
 				elif l.startswith("@"):
 					# color, wav, xp
 					param = l[3:].split(",")
