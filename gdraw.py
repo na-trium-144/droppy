@@ -107,6 +107,7 @@ item_ofs = [
 item_align = {'title':-1, 'subtitle':-1, 'level0':1, 'level1':1, 'hard0':1, 'hard1':1}
 item_anim_t = 15 / 60
 item_ofs_t = 10 / 60
+item_start_dis = 15 #start時のitem移動速度、sel_item_posのnに渡すためitem個数単位で指定
 
 hscore_bg_x = 1280 - 450
 hscore_bg_y = 720/2 + item_center_y + 80
@@ -1003,6 +1004,16 @@ class DDraw():
 		for (n,item) in enumerate(self.sel_items):
 			item.item_sp.setState(self.ex, n == self.sel_num)
 			item.item_sp.setXY(self.sel_itempos(n, item, True), False)
+			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
+		self.sel_set_info_visible(True)
+
+	def sel_redraw_start(self, t):
+		for (n,item) in enumerate(self.sel_items):
+			# item.item_sp.setState(self.ex, n == self.sel_num)
+			if n < self.sel_num:
+				item.item_sp.setXY(self.sel_itempos(n - t / 60 * item_start_dis, item, True), False)
+			elif n > self.sel_num:
+				item.item_sp.setXY(self.sel_itempos(n + t / 60 * item_start_dis, item, True), False)
 			# iteminfo.tit1_sp.setxy((i_x + itit_x, i_y + itit_y))
 		self.sel_set_info_visible(True)
 

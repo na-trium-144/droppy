@@ -94,7 +94,11 @@ class DSelect():
 						self.selected_item = self.sel_items[self.sel_num]
 						self.bgm_stop()
 						self.se['start'].play()
-						pygame.time.wait(1000)
+						# pygame.time.wait(1000)
+						for t in range(60):
+							self.clock.tick(60)
+							self.ddraw.sel_redraw_start(t + 1)
+							self.ddraw.sel_update()
 						return
 			self.ddraw.sel_update()
 
