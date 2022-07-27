@@ -126,11 +126,11 @@ class DSelect():
 			if len(demo_range) >= 2:
 				self.demo_end = demo_range[1] - demo_range[0]
 			demo_start = demo_range[0]
-		print(f"demo: {demo_start}, {self.demo_end}")
+		# print(f"demo: {demo_start}, {self.demo_end}")
 		pygame.mixer.music.play(start=demo_start)
 		self.bgm_stop_cnt = 0
 		self.bgm_start_now = False
-		print(f"hiscore: {self.sel_items[self.sel_num].dsavedat.score}")
+		# print(f"hiscore: {self.sel_items[self.sel_num].dsavedat.score}")
 
 	def bgm_stop(self):
 		pygame.mixer.music.fadeout(1000)

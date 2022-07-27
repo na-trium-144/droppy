@@ -13,6 +13,7 @@ class DSaveDat:
 		path_r = os.path.join(usr_dir, filename_r)
 		self.filename = path_r
 		if os.path.exists(path_r):
+			print(filename_r, dmusicfile.meta['title'])
 			with open(path_r, "r", encoding="utf-8") as f:
 				dat = f.readlines()
 				self.parse(dat)
@@ -27,10 +28,9 @@ class DSaveDat:
 						ll = l.lower()
 						if ll.startswith("#title"):
 							t = l[l.find(":")+1:].strip()
-							print(fn)
-							print(t)
 							if t == dmusicfile.meta['title']:
 								title_match = True
+								print(fn, t)
 								break
 					if title_match:
 						self.filename = os.path.join(usr_dir, fn)

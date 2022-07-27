@@ -68,7 +68,7 @@ class DMusic:
 			if dat1.start_t > main_cnt:
 				break
 			self.dat_pos += 1
-			print(dat1)
+			# print(dat1)
 			if dat1.type == DEventType.Note:
 				noteinfo.append(dat1.args)
 				wav_key = dat1.args.wav_key
