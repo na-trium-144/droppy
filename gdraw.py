@@ -1156,7 +1156,7 @@ class DDraw():
 
 
 	def rslt_hiscore(self):
-		rslt_hiscore_sp = DTextSprite(self.spgroup, self.font_l, rslt_hiscore_t, rslt_hiscore_t_rect, 0, rslt_hiscore_t_color)
+		rslt_hiscore_sp = DTextSprite(self.spgroup, self.font_l, rslt_hiscore_t, rslt_hiscore_t_rect, 0, rslt_hiscore_t_color, shadow=True)
 		rslt_hiscore_sp.setScale(self.scr_size, self.scr_scale)
 		rslt_hiscore_sp.update()
 		self.game_bg()
