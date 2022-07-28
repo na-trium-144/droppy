@@ -1,22 +1,11 @@
 # Droppy
 オリジナルの音楽ゲームです。
 
-## 実行方法
-* Windows/Mac用バイナリはReleasesからどうぞ
-* ソースから動かす場合はPython3とPygameが必要です。
-```
-pip3 install pygame
-./main.py
-```
-* Linuxで音ズレが訪れる場合はpactlとかいじると直るかも
+実行方法、遊び方などは[Wiki](https://github.com/na-trium-144/droppy/wiki)を参照してください。
 
-## 遊び方
-* GitHubのWikiに書きました
+ダウンロードは[Releases](https://github.com/na-trium-144/droppy/releases)からどうぞ。
+このリポジトリに含まれない曲も入ってます。
 
-## バイナリの生成
-* cx_Freezeでバイナリを作成します
-```
-pip3 install cx_Freeze
-./setup.py build  #←windows, linux
-./setup.py bdist_mac  #←mac
-```
+## Screenshots
+
+あとではる
