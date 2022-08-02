@@ -1037,6 +1037,7 @@ class DDraw():
 		if not fps_disp:
 			self.spgroup.remove(self.fps_sp)
 
+		self.dmusic = dmusic
 		self.title = dmusic.title
 		self.subtitle = dmusic.subtitle
 		self.ex = ex
@@ -1178,7 +1179,8 @@ class DDraw():
 		self.game_bg()
 		self.fps_update()
 
-		self.scgauge_sp.setV(self.dresult.score, self.dresult.scgclrs, self.dresult.scgmaxs)
+		score = round(self.dresult.score * self.dmusic.scorescale)
+		self.scgauge_sp.setV(score, self.dresult.scgclrs, self.dresult.scgmaxs)
 
 		combo_col = (255,255,255)
 		combo_t2 = combo_t
@@ -1193,10 +1195,10 @@ class DDraw():
 		self.combo_t_sp.setText(combo_t2, combo_col)
 
 		self.combo_sp.setText(str(self.dresult.combo) if self.dresult.combo > 0 else "", color=combo_col, anim=True)
-		self.score_sp.setText(str(self.dresult.score), anim=(self.dresult.scadd > 0))
+		self.score_sp.setText(str(score), anim=(self.dresult.scadd > 0))
 		self.hiscore_sp.setText(str(self.dresult.hiscore))
 		if (self.dresult.scadd != 0):
-			self.scoreadd_sp.setText(str(self.dresult.scadd), color=(255,231,0) if self.dresult.scadd >= 0 else (0,255,255), slidein=True)
+			self.scoreadd_sp.setText(str(round(self.dresult.scadd * self.dmusic.scorescale)), color=(255,231,0) if self.dresult.scadd >= 0 else (0,255,255), slidein=True)
 			self.dresult.scadd = 0
 		for i in range(1,5):
 			self.hnt_sp[i].setText(str(self.dresult.hntcount[i]))
