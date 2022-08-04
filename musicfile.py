@@ -167,6 +167,8 @@ class DMusicFile():
 				l = l.strip()
 				if l.startswith("# "):
 					l = l[2:].strip()
+				if l.startswith("#@"):
+					l = l[1:]
 				ll = l.lower()
 				print(l)
 				if ll.startswith("#end"):
