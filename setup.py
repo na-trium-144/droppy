@@ -3,7 +3,7 @@ import sys
 from cx_Freeze import setup, Executable
 
 title = "Droppy"
-ver = "1.1"
+ver = "1.2"
 title_ver = f"{title}_{ver}"
 
 # Dependencies are automatically detected, but it might need fine tuning.
