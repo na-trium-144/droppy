@@ -34,8 +34,6 @@ class DMusic:
 		# self.playing = []
 		self.reached_end = False
 
-		self.scorescale = 1
-
 	def play_se_default(self):
 		if self.se_default is not None:
 			# self.play_se(self.se_default)
@@ -86,7 +84,5 @@ class DMusic:
 				pygame.mixer.music.fadeout(dat1.args * 1000)
 			if dat1.type == DEventType.End:
 				self.reached_end = True
-			if dat1.type == DEventType.ScoreScale:
-				self.scorescale = dat1.args
 
 		return noteinfo

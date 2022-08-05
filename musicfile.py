@@ -36,9 +36,6 @@ class DEventType:
 	MusicPlay = 1
 	MusicFadeOut = 2
 	End = 3
-	# BPMChanege =
-	# Speed =
-	ScoreScale = 4
 
 # DEvent(イベント時刻, EventType, パラメーター)
 # イベントの生成はDMusicFile.loaddat()
@@ -143,7 +140,6 @@ class DMusicFile():
 		note_l = 16
 		bpm_local = self.bpm
 		speed_history = [[{'cnt':-9999999999, 'val':self.speed}] for _ in range(26)]
-		ss_last = 1
 		self.notedef = [DNoteInfo(3,0,30,100) for _ in range(26)]
 
 		self.dat.append(DEvent(-round(self.delay * self.game_fps), DEventType.MusicPlay, None))
@@ -213,23 +209,6 @@ class DMusicFile():
 								'cnt':round(last_cnt) + speed_change_cnt,
 								'val':speed_local
 							})
-				elif ll.startswith("#scorescale"):
-					ss_s = ll[ll.find(":")+1:].split(",")
-					ss_local = float(ss_s[0])
-					try:
-						ss_change_time = float(ss_s[1])
-					except:
-						ss_change_time = 0
-					ss_change_cnt = max(1, round(ss_change_time * self.cnt_diff(bpm_local, note_l)))
-					# ss_last = speed_history[c][-1]['val']
-					for t in range(ss_change_cnt):
-						cnt = round(last_cnt) + t
-						val = ss_last + (ss_local - ss_last) * (t + 0.5) / (ss_change_cnt)
-						self.dat.append(DEvent(cnt, DEventType.ScoreScale, val))
-					cnt = round(last_cnt) + ss_change_cnt
-					val = ss_local
-					self.dat.append(DEvent(cnt, DEventType.ScoreScale, val))
-					ss_last = ss_local
 				elif l.startswith("@"):
 					# color, wav, xp
 					param = l[3:].split(",")
