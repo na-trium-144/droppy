@@ -4,7 +4,9 @@ import os
 import time
 import math
 
-caption = "Droppy ver1.2"
+title = "Droppy"
+ver = "1.2"
+caption = f"{title} ver{ver}"
 fps_disp = False
 
 scr_size_debug = None #(640, 480)
@@ -170,7 +172,7 @@ rslt_hiscore_t = "ハイスコアこうしん!"
 rslt_hiscore_t_rect = AlignedRect(-1, (400 - 120, 160), (240, 60))
 rslt_hiscore_t_color = (255, 255, 0)
 
-tit_title = "リズムゲーム Droppy"
+tit_title = f"リズムゲーム {title} ver{ver}"
 tit_title_rect = AlignedRect(0, (0, 630), (1280, 20))
 tit_press = "どれかのキーを押してスタート!"
 tit_press_rect = AlignedRect(0, (0, 450), (1280, 60))
