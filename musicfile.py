@@ -166,7 +166,7 @@ class DMusicFile():
 				if l.startswith("#@"):
 					l = l[1:]
 				ll = l.lower()
-				print(l)
+				print(l.encode("utf-8"))
 				if ll.startswith("#end"):
 					#曲終了処理 これも譜面内のコマンドで設定可能にする?
 					last_cnt += 60
