@@ -7,7 +7,7 @@ import math
 title = "Droppy"
 ver = "1.2"
 caption = f"{title} ver{ver}"
-fps_disp = False
+fps_disp = True
 
 scr_size_debug = None #(640, 480)
 

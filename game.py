@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import asyncio
 import sys
 import os
 
@@ -17,24 +17,35 @@ class DGame():
 		self.auto = auto
 		self.se = se
 
-	def quit(self):
+	async def quit(self):
 		self.dmusic.quit()
 		self.se['quit'].play()
-		pygame.time.wait(1500)
+		for _ in range(90):
+			await asyncio.sleep(0)
+			self.clock.tick(60)
 
-	def end(self):
+	async def end(self):
 		clr = self.dresult.get_result()
 
 		self.ddraw.rslt_comboclear()
 		self.ddraw.rslt_rank_t()
-		self.clock.tick(3)
+		for _ in range(20):
+			await asyncio.sleep(0)
+			self.clock.tick(60)
+		# self.clock.tick(3)
 		for i in range(clr):
 			self.ddraw.rslt_star(i)
 			self.se['star'].play()
-			self.clock.tick(3)
+			for _ in range(20):
+				await asyncio.sleep(0)
+				self.clock.tick(60)
+			# self.clock.tick(3)
 		self.ddraw.rslt_text(clr)
 		self.se['result'+str(clr)].play()
-		self.clock.tick(1)
+		for _ in range(60):
+			await asyncio.sleep(0)
+			self.clock.tick(60)
+		# self.clock.tick(1)
 
 		if not self.auto and self.dresult.score > self.dresult.hiscore:
 			self.ddraw.rslt_hiscore()
@@ -42,7 +53,8 @@ class DGame():
 			self.dresult.save()
 
 		while True:
-			self.clock.tick(60)
+			await asyncio.sleep(0)
+			# self.clock.tick(60)
 			hitkey = 0
 			for event in pygame.event.get():
 				if event.type == VIDEORESIZE:
@@ -64,7 +76,7 @@ class DGame():
 			if hitkey:
 				return
 
-	def main(self):
+	async def main(self):
 		notes = [] #t2の順に並べ替え
 		self.clock = pygame.time.Clock()
 
@@ -90,12 +102,13 @@ class DGame():
 			# 次のフレームまで待つ
 			# 1fを少し超えちゃったらその次のフレームまで待つ
 			while timer_cnt < self.main_cnt or (timer_cnt - self.main_cnt) % 1 > 0.1:
+				await asyncio.sleep(0)
 				timer_cnt += self.clock.tick(0) / 1000 * self.game_fps
 			while timer_cnt - self.main_cnt > 1:
 				self.main_cnt += 1
 
 			if self.dmusic.reached_end:
-				self.end()
+				await self.end()
 				return
 
 			#fread
@@ -118,7 +131,7 @@ class DGame():
 					if event.key == K_ESCAPE:   # Escキーが押されたとき
 						# pygame.quit()
 						# sys.exit()
-						self.quit()
+						await self.quit()
 						return
 					else:
 						hitkey += 1

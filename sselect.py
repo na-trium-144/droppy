@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 import time
 import sys
 import os
@@ -22,7 +23,7 @@ class DSelect():
 		self.ex = 0
 		self.auto = False
 
-	def main(self):
+	async def main(self):
 		self.ddraw.sel_init(self.sel_items, self.sel_num, self.ex, self.auto)
 
 		self.clock = pygame.time.Clock()
@@ -34,7 +35,8 @@ class DSelect():
 		redraw_select = False
 
 		while (1):
-			self.clock.tick(60)
+			# self.clock.tick(
+			await asyncio.sleep(0)
 
 			if sel_cnt == 20:
 				self.bgm_start_now = True
@@ -61,6 +63,7 @@ class DSelect():
 						l = self.se['quit'].get_length()
 						wait = 0
 						while wait < l:
+							await asyncio.sleep(0)
 							wait += self.clock.tick(0) / 1000
 						return
 					elif event.key in [K_UP, K_w] and self.sel_num > 0 and anim_ready:
@@ -96,6 +99,7 @@ class DSelect():
 						self.se['start'].play()
 						# pygame.time.wait(1000)
 						for t in range(60):
+							await asyncio.sleep(0)
 							self.clock.tick(60)
 							self.ddraw.sel_redraw_start(t + 1)
 							self.ddraw.sel_update()

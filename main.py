@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import asyncio
 import pygame
 from pygame.locals import *
 import os
@@ -9,7 +9,7 @@ from game import *
 from gdraw import *
 from title import *
 
-def main(game_dir):
+async def main_impl(game_dir):
 	res_dir = os.path.join(game_dir, "res")
 	music_dir = os.path.join(game_dir, "music")
 	# usr_dir = os.path.join(game_dir, "usr")
@@ -52,17 +52,23 @@ def main(game_dir):
 	ddraw = DDraw(res_dir)
 	dtitle = DTitle(res_dir, ddraw, se)
 	while True:
-		dtitle.main()
+		await dtitle.main()
 		if dtitle.quit:
 			break
 		dselect = DSelect(res_dir, music_dir, usr_dir, ddraw, se)
 		while not dselect.quit:
-			dselect.main()
+			await dselect.main()
 			if dselect.selected_item is not None:
 				dgame = DGame(ddraw, dselect.selected_item, dselect.ex, dselect.auto, se)
-				dgame.main()
+				await dgame.main()
 
-if __name__ == "__main__":
+async def main():
+    datadir = os.path.dirname(__file__)
+    await main_impl(datadir)
+
+asyncio.run(main())
+
+if False and __name__ == "__main__":
 	#pygame.mixer.pre_init(44100, -16, 2, 64)
 	#pygame.mixer.quit()
 	#pygame.mixer.init(44100, -16, 2, 64)
@@ -79,5 +85,5 @@ if __name__ == "__main__":
 				traceback.print_exc(file=ef)
 	else:
 		datadir = os.path.dirname(__file__)
-		main(datadir)
+		main_impl(datadir)
 	pygame.quit()

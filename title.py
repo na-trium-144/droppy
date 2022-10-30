@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 import sys
 import os
 import pygame
@@ -15,7 +16,7 @@ class DTitle():
 
 		self.quit = False
 
-	def main(self):
+	async def main(self):
 		self.ddraw.tit_init()
 
 		self.clock = pygame.time.Clock()
@@ -26,7 +27,8 @@ class DTitle():
 		self.bgm_start()
 
 		while (1):
-			self.clock.tick(60)
+			# self.clock.tick(60)
+			await asyncio.sleep(0)
 
 			for event in pygame.event.get():
 				if event.type == VIDEORESIZE:
@@ -44,12 +46,16 @@ class DTitle():
 						l = self.se['quit'].get_length()
 						wait = 0
 						while wait < l:
+							await asyncio.sleep(0)
 							wait += self.clock.tick(0) / 1000
 						return
 					else:
 						self.bgm_stop()
 						self.se['title'].play()
-						pygame.time.wait(1000)
+						for _ in range(60):
+							await asyncio.sleep(0)
+							self.clock.tick(60)
+						# pygame.time.wait(1000)
 						return
 			self.ddraw.tit_update()
 

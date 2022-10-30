@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pygame = "*"
+pygbag = "*"
 
 [dev-packages]
 cx-freeze = "*"
