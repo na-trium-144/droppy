@@ -63,12 +63,6 @@ async def main_impl(game_dir):
 				await dgame.main()
 
 async def main():
-    datadir = os.path.dirname(__file__)
-    await main_impl(datadir)
-
-asyncio.run(main())
-
-if False and __name__ == "__main__":
 	#pygame.mixer.pre_init(44100, -16, 2, 64)
 	#pygame.mixer.quit()
 	#pygame.mixer.init(44100, -16, 2, 64)
@@ -78,12 +72,16 @@ if False and __name__ == "__main__":
 	if getattr(sys, "frozen", False):
 		datadir = os.path.dirname(sys.executable)
 		try:
-			main(datadir)
+			await main_impl(datadir)
 		except Exception as e:
 			with open(os.path.join(datadir, "exception.txt"), "w", encoding="utf-8") as ef:
 				import traceback
 				traceback.print_exc(file=ef)
 	else:
 		datadir = os.path.dirname(__file__)
-		main_impl(datadir)
-	pygame.quit()
+		await main_impl(datadir)
+	# pygame.quit()
+
+
+if __name__ == "__main__":
+	asyncio.run(main())

@@ -101,8 +101,8 @@ class DGame():
 			self.main_cnt += 1
 			# 次のフレームまで待つ
 			# 1fを少し超えちゃったらその次のフレームまで待つ
+			await asyncio.sleep(0)
 			while timer_cnt < self.main_cnt or (timer_cnt - self.main_cnt) % 1 > 0.1:
-				await asyncio.sleep(0)
 				timer_cnt += self.clock.tick(0) / 1000 * self.game_fps
 			while timer_cnt - self.main_cnt > 1:
 				self.main_cnt += 1
